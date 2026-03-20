@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Modulo di Iscrizione — Jager Galenica</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f7f4;color:#1a1a1a;}
+.site-nav{background:#0d6fa8;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{color:#fff;display:flex;align-items:center;gap:10px;}
+.nav-logo-icon{width:32px;height:32px;background:rgba(255,255,255,0.15);border-radius:6px;display:flex;align-items:center;justify-content:center;}
+.nav-name{font-size:13px;font-weight:600;letter-spacing:0.05em;}
+.nav-sub{font-size:10px;color:rgba(255,255,255,0.6);letter-spacing:0.03em;}
+.nav-right{display:flex;flex-direction:column;align-items:flex-end;gap:2px;}
+.nav-links{display:flex;gap:18px;}
+.nav-links span{color:rgba(255,255,255,0.7);font-size:12px;cursor:pointer;}
+.nav-email{font-size:11px;color:rgba(255,255,255,0.6);}
+.hero-band{background:#0d6fa8;padding:24px 32px 52px;text-align:center;}
+.hero-band h1{color:#fff;font-size:26px;font-weight:700;margin-bottom:6px;}
+.hero-band p{color:rgba(255,255,255,0.65);font-size:13px;}
+.hero-email{margin-top:8px;font-size:12px;color:rgba(255,255,255,0.5);}
+.hero-email a{color:rgba(255,255,255,0.75);text-decoration:underline;}
+.form-progress{background:#e8f3fb;padding:10px 24px;border-bottom:0.5px solid #b8d8ee;}
+.progress-steps{display:flex;align-items:center;}
+.step-item{display:flex;align-items:center;flex:1;}
+.step-wrap{display:flex;flex-direction:column;align-items:center;}
+.step-dot{width:22px;height:22px;border-radius:50%;border:2px solid #b8d8ee;background:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:#8ab8d0;flex-shrink:0;transition:all 0.3s;}
+.step-dot.active{border-color:#0d6fa8;background:#0d6fa8;color:#fff;}
+.step-dot.done{border-color:#0d6fa8;background:#0d6fa8;color:#fff;}
+.step-line{flex:1;height:2px;background:#c8dcea;margin:0 3px;transition:background 0.3s;}
+.step-line.done{background:#0d6fa8;}
+.step-label{font-size:9px;color:#6a9ab5;margin-top:3px;white-space:nowrap;}
+.content-area{padding:0 20px 40px;margin-top:-22px;}
+.form-card{background:#fff;border-radius:12px;border:0.5px solid #e0e0e0;padding:24px;max-width:640px;margin:0 auto;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
+.form-section{display:none;}
+.form-section.active{display:block;}
+.section-title{font-size:16px;font-weight:500;margin-bottom:4px;}
+.section-sub{font-size:13px;color:#666;margin-bottom:20px;}
+.divider{height:0.5px;background:#e8e8e8;margin:16px 0;}
+.section-label{font-size:11px;font-weight:500;color:#999;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.field-single{margin-bottom:12px;}
+.field-label{font-size:12px;color:#555;margin-bottom:5px;}
+.field-hint{font-size:11px;color:#999;margin-top:4px;display:flex;align-items:center;gap:6px;line-height:1.4;}
+.required{color:#c0392b;font-size:11px;}
+.field-input{width:100%;padding:9px 11px;border:0.5px solid #ccc;border-radius:8px;font-size:13px;color:#1a1a1a;background:#fafafa;font-family:inherit;transition:border-color 0.2s;}
+.field-input:focus{outline:none;border-color:#0d6fa8;background:#fff;}
+.field-input.valid{border-color:#0f6e56;background:#f4fbf8;}
+.field-input.invalid{border-color:#993c1d;background:#fdf6f4;}
+select.field-input{cursor:pointer;}
+.field-feedback{font-size:11px;margin-top:4px;display:none;}
+.field-feedback.show{display:block;}
+.field-feedback.ok{color:#0f6e56;}
+.field-feedback.err{color:#993c1d;}
+.course-grid{display:flex;flex-direction:column;gap:12px;}
+.course-btn{display:flex;align-items:center;gap:16px;padding:16px 18px;border:1.5px solid #ddd;border-radius:12px;cursor:pointer;background:#fafafa;transition:all 0.18s;text-align:left;}
+.course-btn:hover{border-color:#0d6fa8;background:#e8f3fb;}
+.course-btn.active{border-color:#0d6fa8;background:#e8f3fb;box-shadow:0 0 0 3px rgba(13,111,168,0.1);}
+.course-icon{width:44px;height:44px;border-radius:10px;background:#e8f3fb;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.18s;}
+.course-btn.active .course-icon{background:#0d6fa8;}
+.course-name{font-size:14px;font-weight:500;}
+.course-dates{font-size:12px;color:#666;margin-top:2px;}
+.billing-toggle{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.toggle-btn{padding:14px 16px;border:1.5px solid #ddd;border-radius:8px;cursor:pointer;text-align:center;background:#fafafa;transition:all 0.15s;}
+.toggle-btn.active{border-color:#0d6fa8;background:#e8f3fb;}
+.toggle-btn .btn-label{font-size:14px;font-weight:500;}
+.toggle-btn .btn-sub{font-size:12px;color:#666;margin-top:3px;}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.role-btn{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid #ddd;border-radius:8px;cursor:pointer;background:#fafafa;transition:all 0.15s;}
+.role-btn:hover{border-color:#0d6fa8;background:#e8f3fb;}
+.role-btn.active{border-color:#0d6fa8;background:#e8f3fb;}
+.role-icon{width:32px;height:32px;border-radius:8px;background:#e8f3fb;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.15s;}
+.role-btn.active .role-icon{background:#0d6fa8;}
+.role-label{font-size:13px;font-weight:500;}
+.section-badge{display:inline-block;background:#e8f3fb;color:#0d6fa8;font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500;}
+.tag{display:inline-block;font-size:10px;background:#dbeafe;color:#1e40af;padding:2px 7px;border-radius:10px;margin-left:6px;}
+.cascade-field{overflow:hidden;max-height:0;opacity:0;transform:translateY(-8px);transition:max-height 0.35s ease,opacity 0.3s ease,transform 0.3s ease,margin 0.3s ease;margin-bottom:0;}
+.cascade-field.visible{max-height:150px;opacity:1;transform:translateY(0);margin-bottom:12px;}
+.cascade-field.visible.tall{max-height:200px;}
+.badge-wrap{overflow:hidden;max-height:0;opacity:0;transition:max-height 0.3s ease,opacity 0.25s ease;margin-bottom:0;}
+.badge-wrap.visible{max-height:50px;opacity:1;margin-bottom:14px;margin-top:14px;}
+.piva-wrap{position:relative;}
+.piva-spinner{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;border:2px solid #b8d8ee;border-top-color:#0d6fa8;border-radius:50%;animation:spin 0.7s linear infinite;display:none;}
+@keyframes spin{to{transform:translateY(-50%) rotate(360deg);}}
+.piva-result{margin-top:6px;padding:8px 10px;background:#e8f3fb;border-radius:8px;border:0.5px solid #a8d4ee;font-size:12px;color:#0a4f7a;display:none;}
+.piva-result.show{display:block;}
+.piva-result.error{background:#faece7;border-color:#d8a090;color:#7a2a1a;}
+.manual-btn{margin-top:8px;background:none;border:0.5px solid #ccc;border-radius:8px;padding:6px 12px;font-size:12px;color:#666;cursor:pointer;font-family:inherit;}
+.manual-btn:hover{border-color:#0d6fa8;color:#0d6fa8;}
+.allergy-box{background:#fff8e1;border:1px solid #f9c74f;border-radius:8px;padding:10px 12px;margin-bottom:10px;}
+.allergy-label{font-size:13px;font-weight:500;color:#7a5c00;margin-bottom:4px;display:flex;align-items:center;gap:6px;}
+.allergy-sub{font-size:11px;color:#9a7a1a;margin-bottom:6px;line-height:1.4;}
+.quiz-outer{background:#f5f7fa;border-radius:12px;border:0.5px solid #e0e0e0;padding:20px;margin-top:4px;}
+.quiz-header{text-align:center;margin-bottom:16px;}
+.quiz-badge-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:10px;}
+.quiz-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:4px 10px;border-radius:20px;font-weight:500;}
+.quiz-badge.opt{background:#e8f3fb;color:#0a4f7a;border:0.5px solid #a8d4ee;}
+.quiz-badge.anon{background:#e1f5ee;color:#0a4a38;border:0.5px solid #9fd8c0;}
+.quiz-badge.util{background:#fff8e1;color:#7a5c00;border:0.5px solid #f9c74f;}
+.quiz-desc{font-size:12px;color:#666;line-height:1.6;text-align:center;max-width:460px;margin:0 auto;}
+.quiz-toggle-btn{width:100%;padding:11px 16px;border:1px solid #0d6fa8;border-radius:8px;cursor:pointer;background:#0d6fa8;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s;margin-top:14px;color:#fff;font-size:13px;font-weight:500;}
+.quiz-toggle-btn:hover{background:#0a5a8c;}
+.quiz-toggle-btn.open{background:#fff;color:#0d6fa8;border-color:#0d6fa8;}
+.quiz-chevron{font-size:11px;transition:transform 0.25s;}
+.quiz-chevron.rotated{transform:rotate(180deg);}
+.quiz-section-wrap{overflow:hidden;max-height:0;opacity:0;transition:max-height 0.5s ease,opacity 0.3s ease;}
+.quiz-section-wrap.open{max-height:1400px;opacity:1;margin-top:16px;}
+.quiz-prog{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+.quiz-prog-wrap{flex:1;height:4px;background:#ddd;border-radius:2px;}
+.quiz-prog-fill{height:4px;background:#0d6fa8;border-radius:2px;transition:width 0.4s ease;}
+.quiz-prog-label{font-size:11px;color:#666;white-space:nowrap;}
+.question-block{margin-bottom:16px;}
+.question-text{font-size:13px;font-weight:500;margin-bottom:10px;line-height:1.5;}
+.q-number{display:inline-block;width:20px;height:20px;border-radius:50%;background:#0d6fa8;color:#fff;font-size:10px;font-weight:500;text-align:center;line-height:20px;margin-right:8px;}
+.answer-option{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;border:0.5px solid #ddd;margin-bottom:5px;cursor:pointer;background:#fff;transition:all 0.15s;}
+.answer-option:hover{border-color:#0d6fa8;background:#e8f3fb;}
+.answer-option.selected{border-color:#0d6fa8;background:#e8f3fb;}
+.answer-option.correct{border-color:#0f6e56;background:#e1f5ee;}
+.answer-option.wrong{border-color:#993c1d;background:#faece7;}
+.answer-radio{width:14px;height:14px;border-radius:50%;border:1.5px solid #ccc;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.answer-radio.checked{border-color:#0d6fa8;background:#0d6fa8;}
+.answer-radio.correct-dot{border-color:#0f6e56;background:#0f6e56;}
+.answer-radio.wrong-dot{border-color:#993c1d;background:#993c1d;}
+.answer-radio.checked::after,.answer-radio.correct-dot::after,.answer-radio.wrong-dot::after{content:'';width:5px;height:5px;border-radius:50%;background:white;}
+.answer-text{font-size:13px;}
+.quiz-score-box{background:#fff;border-radius:8px;border:0.5px solid #ddd;padding:16px;text-align:center;display:none;margin-top:12px;}
+.score-number{font-size:28px;font-weight:500;color:#0d6fa8;}
+.score-label{font-size:12px;color:#666;margin-top:4px;}
+.score-message{font-size:13px;color:#666;margin-top:8px;line-height:1.5;}
+.quiz-submit-btn{width:100%;padding:10px;background:#0d6fa8;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;margin-top:12px;font-family:inherit;}
+.quiz-submit-btn:disabled{opacity:0.4;cursor:not-allowed;}
+.form-nav{display:flex;gap:10px;margin-top:20px;}
+.btn-next{flex:1;padding:12px;background:#0d6fa8;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;transition:background 0.15s;}
+.btn-next:hover{background:#0a5a8c;}
+.btn-back{padding:12px 18px;background:transparent;color:#666;border:0.5px solid #ccc;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;}
+.btn-back:hover{background:#f5f5f5;}
+.recap-box{background:#f5f7fa;border-radius:12px;border:0.5px solid #e0e0e0;padding:16px;margin-bottom:12px;}
+.recap-title{font-size:13px;font-weight:500;margin-bottom:10px;padding-bottom:8px;border-bottom:0.5px solid #e0e0e0;}
+.recap-row{display:flex;justify-content:space-between;align-items:flex-start;padding:5px 0;border-bottom:0.5px solid #e8e8e8;gap:12px;}
+.recap-row:last-child{border-bottom:none;}
+.recap-key{font-size:12px;color:#666;flex-shrink:0;}
+.recap-val{font-size:12px;text-align:right;}
+.privacy-row{margin-bottom:10px;display:flex;align-items:flex-start;gap:8px;}
+.privacy-row span{font-size:11px;color:#999;line-height:1.5;}
+.submit-btn{width:100%;padding:12px;background:#0d6fa8;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;}
+.success-box{text-align:center;padding:40px 20px;display:none;}
+.success-icon{width:56px;height:56px;border-radius:50%;background:#e1f5ee;border:2px solid #0f6e56;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+.success-title{font-size:18px;font-weight:500;margin-bottom:8px;}
+.success-sub{font-size:13px;color:#666;line-height:1.6;}
+@media(max-width:480px){
+  .field-row,.billing-toggle,.role-grid{grid-template-columns:1fr;}
+  .nav-links{display:none;}
+  .form-card{padding:16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- SVG DEFS -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden">
+  <defs>
+    <symbol id="icon-compresse" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <ellipse cx="12" cy="12" rx="9" ry="5" transform="rotate(-40 12 12)"/>
+      <line x1="7.5" y1="7.2" x2="16.5" y2="16.8" transform="rotate(-40 12 12)"/>
+    </symbol>
+    <symbol id="icon-cannabis" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22v-7"/>
+      <path d="M12 15C9 15 4 12 4 7c2 0 5 1 8 4 3-3 6-4 8-4 0 5-5 8-8 8z"/>
+      <path d="M9 20h6"/>
+    </symbol>
+    <symbol id="icon-farmacista" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 8h18"/>
+      <path d="M5 8c0 5.5 14 5.5 14 0"/>
+      <path d="M7 8v7a5 5 0 0 0 10 0V8"/>
+      <line x1="15" y1="4" x2="19" y2="8"/>
+    </symbol>
+    <symbol id="icon-tecnico" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 3h6v8l3.5 5.5A3 3 0 0 1 15.8 21H8.2a3 3 0 0 1-2.7-4.5L9 11V3z"/>
+      <line x1="9" y1="3" x2="15" y2="3"/>
+      <circle cx="9.5" cy="16" r="0.8" fill="#0d6fa8"/>
+      <circle cx="13" cy="17.5" r="0.8" fill="#0d6fa8"/>
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="#0f6e56" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </symbol>
+  </defs>
+</svg>
+
+<nav class="site-nav">
+  <div class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    </div>
+    <div>
+      <div class="nav-name">JAGER GALENICA</div>
+      <div class="nav-sub">Scuola di Galenica · Cortona</div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="nav-links"><span>Corsi</span><span>Chi siamo</span><span>Contatti</span></div>
+    <div class="nav-email">lorenzo@jagergalenica.it</div>
+  </div>
+</nav>
+
+<div class="hero-band">
+  <h1>Modulo di Iscrizione</h1>
+  <p>Compila il form per iscriverti al corso. Riceverai una conferma via email.</p>
+  <div class="hero-email">Per informazioni: <a href="mailto:lorenzo@jagergalenica.it">lorenzo@jagergalenica.it</a></div>
+</div>
+
+<div class="form-progress">
+  <div class="progress-steps">
+    <div class="step-item"><div class="step-wrap"><div class="step-dot active" id="dot-1">1</div><div class="step-label">Corso</div></div><div class="step-line" id="line-1"></div></div>
+    <div class="step-item"><div class="step-wrap"><div class="step-dot" id="dot-2">2</div><div class="step-label">Dati personali</div></div><div class="step-line" id="line-2"></div></div>
+    <div class="step-item"><div class="step-wrap"><div class="step-dot" id="dot-3">3</div><div class="step-label">Fatturazione</div></div><div class="step-line" id="line-3"></div></div>
+    <div class="step-item"><div class="step-wrap"><div class="step-dot" id="dot-4">4</div><div class="step-label">Note</div></div><div class="step-line" id="line-4"></div></div>
+    <div class="step-item"><div class="step-wrap"><div class="step-dot" id="dot-5">5</div><div class="step-label">Quiz</div></div><div class="step-line" id="line-5"></div></div>
+    <div class="step-wrap"><div class="step-dot" id="dot-6">6</div><div class="step-label">Riepilogo</div></div>
+  </div>
+</div>
+
+<div class="content-area">
+  <div class="form-card">
+
+    <!-- STEP 1 -->
+    <div class="form-section active" id="sec-1">
+      <div class="section-title">Seleziona il corso</div>
+      <div class="section-sub">Scegli il corso a cui vuoi iscriverti</div>
+      <div class="course-grid">
+        <div class="course-btn" id="cbtn-1" onclick="selectCourse('Compresse — 17, 18, 19 Aprile 2026','cbtn-1','white')">
+          <div class="course-icon" id="cicon-1">
+            <svg width="26" height="26" stroke="#0d6fa8"><use href="#icon-compresse"/></svg>
+          </div>
+          <div><div class="course-name">Compresse</div><div class="course-dates">17 · 18 · 19 Aprile 2026</div></div>
+        </div>
+        <div class="course-btn" id="cbtn-2" onclick="selectCourse('Cannabis Terapeutica — 29, 30, 31 Maggio 2026','cbtn-2','white')">
+          <div class="course-icon" id="cicon-2">
+            <svg width="26" height="26" stroke="#0d6fa8"><use href="#icon-cannabis"/></svg>
+          </div>
+          <div><div class="course-name">Cannabis Terapeutica</div><div class="course-dates">29 · 30 · 31 Maggio 2026</div></div>
+        </div>
+      </div>
+      <input type="hidden" id="f-corso" value=""/>
+      <div class="form-nav"><button class="btn-next" onclick="goTo(2)">Avanti →</button></div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="form-section" id="sec-2">
+      <div class="section-title">Dati personali</div>
+      <div class="section-sub">Inserisci i tuoi dati di contatto</div>
+      <div class="field-row">
+        <div><div class="field-label">Nome <span class="required">*</span></div><input class="field-input" id="f-nome" type="text" placeholder="Mario"/></div>
+        <div><div class="field-label">Cognome <span class="required">*</span></div><input class="field-input" id="f-cognome" type="text" placeholder="Rossi"/></div>
+      </div>
+      <div class="field-single">
+        <div class="field-label">Email <span class="required">*</span></div>
+        <input class="field-input" id="f-email" type="email" placeholder="mario@email.it"/>
+        <div class="field-hint">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0d6fa8" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+          Indirizzo usato per l'invio del materiale didattico post corso
+        </div>
+      </div>
+      <div class="field-single">
+        <div class="field-label">Telefono <span class="required">*</span></div>
+        <input class="field-input" id="f-tel" type="tel" placeholder="+39 333 1234567"/>
+        <div class="field-hint">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.138.563 4.144 1.539 5.879L0 24l6.304-1.513A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.659-.5-5.195-1.375l-.371-.22-3.742.898.933-3.652-.242-.384A9.944 9.944 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Numero usato per aggiungerti al gruppo WhatsApp del corso
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="section-label">Profilo professionale</div>
+      <div class="field-label" style="margin-bottom:10px;">Sei un/una <span class="required">*</span></div>
+      <div class="role-grid">
+        <div class="role-btn" id="role-farmacista" onclick="selectRole('Farmacista')">
+          <div class="role-icon" id="ricon-farm"><svg width="20" height="20" stroke="#0d6fa8"><use href="#icon-farmacista"/></svg></div>
+          <div class="role-label">Farmacista</div>
+        </div>
+        <div class="role-btn" id="role-tecnico" onclick="selectRole('Tecnico di laboratorio')">
+          <div class="role-icon" id="ricon-tec"><svg width="20" height="20" stroke="#0d6fa8"><use href="#icon-tecnico"/></svg></div>
+          <div class="role-label">Tecnico di laboratorio</div>
+        </div>
+      </div>
+      <input type="hidden" id="f-ruolo" value=""/>
+      <div class="form-nav">
+        <button class="btn-back" onclick="goTo(1)">← Indietro</button>
+        <button class="btn-next" onclick="goTo(3)">Avanti →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="form-section" id="sec-3">
+      <div class="section-title">Dati di fatturazione</div>
+      <div class="section-sub">Seleziona come vuoi ricevere la fattura</div>
+      <div class="billing-toggle">
+        <div class="toggle-btn" id="btn-privato" onclick="switchType('privato')"><div class="btn-label">Privato</div><div class="btn-sub">Persona fisica</div></div>
+        <div class="toggle-btn" id="btn-farmacia" onclick="switchType('farmacia')"><div class="btn-label">Farmacia / Azienda</div><div class="btn-sub">Soggetto giuridico</div></div>
+      </div>
+
+      <!-- PRIVATO -->
+      <div class="badge-wrap" id="badge-privato"><span class="section-badge">Fatturazione — Privato</span></div>
+      <div class="cascade-field" id="p1">
+        <div class="field-label">Codice Fiscale <span class="required">*</span></div>
+        <input class="field-input" id="f-cf" type="text" placeholder="RSSMRA80A01H501Z" maxlength="16" style="text-transform:uppercase;" oninput="validateCF(this)"/>
+        <div class="field-feedback" id="cf-feedback"></div>
+      </div>
+      <div class="cascade-field" id="p2"><div class="field-label">Indirizzo di residenza <span class="required">*</span></div><input class="field-input" id="f-via" type="text" placeholder="Via Roma, 1"/></div>
+      <div class="cascade-field" id="p3">
+        <div style="display:grid;grid-template-columns:88px 1fr 60px;gap:10px;">
+          <div><div class="field-label">CAP <span class="required">*</span></div><input class="field-input" id="f-cap" type="text" placeholder="00100" maxlength="5" oninput="lookupCAP('f-cap','f-citta','f-prov')"/></div>
+          <div><div class="field-label">Città <span class="required">*</span></div><input class="field-input" id="f-citta" type="text" placeholder="Roma"/></div>
+          <div><div class="field-label">Prov.</div><input class="field-input" id="f-prov" type="text" placeholder="RM" maxlength="2"/></div>
+        </div>
+      </div>
+
+      <!-- FARMACIA -->
+      <div class="badge-wrap" id="badge-farmacia"><span class="section-badge">Fatturazione — Farmacia / Azienda</span></div>
+      <div class="cascade-field" id="fa0">
+        <div class="field-label">Partita IVA <span class="required">*</span></div>
+        <div class="piva-wrap">
+          <input class="field-input" id="f-piva" type="text" placeholder="12345678901" maxlength="11" oninput="lookupPIVA(this)"/>
+          <div class="piva-spinner" id="piva-spinner"></div>
+        </div>
+        <div class="piva-result" id="piva-result"></div>
+        <button class="manual-btn" id="manual-btn" style="display:none" onclick="enableManual()">Inserisci manualmente i dati aziendali →</button>
+      </div>
+      <div class="cascade-field" id="f1"><div class="field-label">Ragione Sociale <span class="required">*</span></div><input class="field-input" id="f-ragsoc" type="text" placeholder="Farmacia Bianchi S.r.l."/></div>
+      <div class="cascade-field tall" id="f2"><div class="field-label">Codice SDI / PEC <span class="required">*</span><span class="tag">e-fattura</span></div><input class="field-input" id="f-sdi" type="text" placeholder="ABC1234 oppure pec@farmacia.it"/></div>
+      <div class="cascade-field" id="f3"><div class="field-label">Indirizzo sede legale <span class="required">*</span></div><input class="field-input" id="f-via2" type="text" placeholder="Via Garibaldi, 5"/></div>
+      <div class="cascade-field" id="f4">
+        <div style="display:grid;grid-template-columns:88px 1fr 60px;gap:10px;">
+          <div><div class="field-label">CAP <span class="required">*</span></div><input class="field-input" id="f-cap2" type="text" placeholder="50100" maxlength="5" oninput="lookupCAP('f-cap2','f-citta2','f-prov2')"/></div>
+          <div><div class="field-label">Città <span class="required">*</span></div><input class="field-input" id="f-citta2" type="text" placeholder="Firenze"/></div>
+          <div><div class="field-label">Prov.</div><input class="field-input" id="f-prov2" type="text" placeholder="FI" maxlength="2"/></div>
+        </div>
+      </div>
+      <div class="cascade-field" id="f5"><div class="field-label">Nome referente interno</div><input class="field-input" id="f-ref" type="text" placeholder="Chi partecipa al corso"/></div>
+
+      <div class="form-nav">
+        <button class="btn-back" onclick="goTo(2)">← Indietro</button>
+        <button class="btn-next" onclick="goTo(4)">Avanti →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="form-section" id="sec-4">
+      <div class="section-title">Note aggiuntive</div>
+      <div class="section-sub">Allergie e informazioni utili per l'organizzazione</div>
+      <div class="allergy-box">
+        <div class="allergy-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7a5c00" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          ALLERGIE ALIMENTARI
+        </div>
+        <div class="allergy-sub">Indica eventuali allergie o intolleranze alimentari per la gestione dei pasti durante il corso.</div>
+        <textarea class="field-input" id="f-allergie" rows="2" placeholder="Es. celiachia, allergia alle noci, intolleranza al lattosio..."></textarea>
+      </div>
+      <div class="field-single">
+        <div class="field-label">Altre note o richieste particolari</div>
+        <textarea class="field-input" id="f-note" rows="2" placeholder="Eventuali esigenze logistiche o domande..."></textarea>
+      </div>
+      <div class="form-nav">
+        <button class="btn-back" onclick="goTo(3)">← Indietro</button>
+        <button class="btn-next" onclick="goTo(5)">Avanti →</button>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="form-section" id="sec-5">
+      <div class="quiz-outer">
+        <div class="quiz-header">
+          <div style="font-size:15px;font-weight:500;margin-bottom:10px;">Quiz di autovalutazione</div>
+          <div class="quiz-badge-row">
+            <span class="quiz-badge opt">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0a4f7a" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Facoltativo
+            </span>
+            <span class="quiz-badge anon">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0a4a38" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Risposte anonime
+            </span>
+            <span class="quiz-badge util">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#7a5c00" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Migliora il corso
+            </span>
+          </div>
+          <div class="quiz-desc">Le tue risposte ci aiutano a calibrare il livello del corso e ad adattare i contenuti alle esigenze reali dei partecipanti. Non sono collegate ai tuoi dati personali.</div>
+          <button class="quiz-toggle-btn" id="quiz-toggle" onclick="toggleQuiz()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span id="quiz-btn-label">Inizia il quiz (5 domande)</span>
+            <span class="quiz-chevron" id="quiz-chevron">▼</span>
+          </button>
+        </div>
+        <div class="quiz-section-wrap" id="quiz-section">
+          <div class="quiz-prog"><div class="quiz-prog-wrap"><div class="quiz-prog-fill" id="qpf" style="width:0%"></div></div><div class="quiz-prog-label" id="qpl">0 / 5</div></div>
+          <div id="qcont"></div>
+          <div class="quiz-score-box" id="qscore"><div class="score-number" id="qsn">—</div><div class="score-label">risposte corrette su 5</div><div class="score-message" id="qsm"></div></div>
+          <button class="quiz-submit-btn" id="qsbtn" onclick="submitQuiz()" disabled>Conferma risposte</button>
+        </div>
+      </div>
+      <div class="form-nav">
+        <button class="btn-back" onclick="goTo(4)">← Indietro</button>
+        <button class="btn-next" onclick="goTo(6)">Rivedi e invia →</button>
+      </div>
+    </div>
+
+    <!-- STEP 6 -->
+    <div class="form-section" id="sec-6">
+      <div class="section-title">Riepilogo iscrizione</div>
+      <div class="section-sub">Verifica i tuoi dati prima di inviare</div>
+      <div id="recap-content"></div>
+      <div class="privacy-row">
+        <input type="checkbox" id="gdpr-check"/>
+        <span>Acconsento al trattamento dei miei dati personali ai sensi del Regolamento UE 2016/679 (GDPR). <a href="#" style="color:#0d6fa8;">Leggi l'informativa</a></span>
+      </div>
+      <div class="form-nav">
+        <button class="btn-back" onclick="goTo(5)">← Modifica</button>
+        <button class="btn-next" onclick="submitForm()">Invia iscrizione</button>
+      </div>
+      <div class="success-box" id="success-box">
+        <div class="success-icon"><svg width="24" height="24"><use href="#icon-check"/></svg></div>
+        <div class="success-title">Iscrizione inviata!</div>
+        <div class="success-sub">Grazie per esserti iscritto/a. Riceverai una conferma all'indirizzo email indicato.<br><br>Per informazioni: <strong>lorenzo@jagergalenica.it</strong><br><br>A presto — Jager Galenica</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+var currentType=null,quizOpen=false,qAnswers={},qSubmitted=false,pivaTimer=null;
+
+var questions=[
+  {text:"Cosa si intende per preparazione galenica magistrale?",options:["Un farmaco prodotto industrialmente in serie","Una preparazione eseguita in farmacia su prescrizione medica individuale","Un integratore alimentare a base di erbe officinali"],correct:1},
+  {text:"Quale strumento viene utilizzato per pesare i principi attivi in laboratorio galenico?",options:["Misurino volumetrico graduato","Densimetro ad immersione","Bilancia analitica di precisione"],correct:2},
+  {text:"Cosa indica la sigla FU nel contesto della farmacia italiana?",options:["Farmaco ad Uso urgente","Farmacopea Ufficiale della Repubblica Italiana","Formulazione Unificata per preparati officinali"],correct:1},
+  {text:"In cosmetologia, un'emulsione O/A indica:",options:["Acqua dispersa in fase oleosa continua","Olio disperso in fase acquosa continua","Una miscela anidra di oli vegetali e cere"],correct:1},
+  {text:"Quale delle seguenti è una forma farmaceutica semisolida tipicamente preparata in farmacia?",options:["Fiala per uso parenterale","Compressa a rilascio modificato","Unguento o crema galenica"],correct:2}
+];
+
+function goTo(s){
+  document.querySelectorAll('.form-section').forEach(function(x){x.classList.remove('active');});
+  document.getElementById('sec-'+s).classList.add('active');
+  for(var i=1;i<=6;i++){
+    var d=document.getElementById('dot-'+i);if(!d)continue;
+    d.className='step-dot'+(i<s?' done':i===s?' active':'');
+    if(i<6){var l=document.getElementById('line-'+i);if(l)l.className='step-line'+(i<s?' done':'');}
+  }
+  if(s===6)buildRecap();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function selectCourse(val,id){
+  document.getElementById('f-corso').value=val;
+  ['cbtn-1','cbtn-2'].forEach(function(b){
+    var el=document.getElementById(b);
+    el.classList.remove('active');
+    el.querySelector('.course-icon').style.background='#e8f3fb';
+    el.querySelector('svg').setAttribute('stroke','#0d6fa8');
+  });
+  var active=document.getElementById(id);
+  active.classList.add('active');
+  active.querySelector('.course-icon').style.background='#0d6fa8';
+  active.querySelector('svg').setAttribute('stroke','white');
+}
+
+function selectRole(r){
+  document.getElementById('f-ruolo').value=r;
+  ['role-farmacista','role-tecnico'].forEach(function(b){
+    var el=document.getElementById(b);
+    el.classList.remove('active');
+    el.querySelector('.role-icon').style.background='#e8f3fb';
+    el.querySelector('svg').setAttribute('stroke','#0d6fa8');
+  });
+  var rid=r==='Farmacista'?'role-farmacista':'role-tecnico';
+  var active=document.getElementById(rid);
+  active.classList.add('active');
+  active.querySelector('.role-icon').style.background='#0d6fa8';
+  active.querySelector('svg').setAttribute('stroke','white');
+}
+
+function validateCF(el){
+  var v=el.value.toUpperCase().replace(/\s/g,'');el.value=v;
+  var fb=document.getElementById('cf-feedback');
+  var re=/^[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST]{1}[0-9LMNPQRSTUV]{2}[A-Z]{1}[0-9LMNPQRSTUV]{3}[A-Z]{1}$/;
+  if(!v.length){el.className='field-input';fb.className='field-feedback';return;}
+  if(v.length===16&&re.test(v)){el.className='field-input valid';fb.className='field-feedback show ok';fb.textContent='✓ Codice fiscale valido';}
+  else if(v.length<16){el.className='field-input';fb.className='field-feedback';}
+  else{el.className='field-input invalid';fb.className='field-feedback show err';fb.textContent='✗ Formato non valido';}
+}
+
+function lookupCAP(capId,cittaId,provId){
+  var cap=document.getElementById(capId).value.replace(/\D/g,'');
+  document.getElementById(capId).value=cap;
+  if(cap.length!==5)return;
+  fetch('/api/cap/'+cap)
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.places&&d.places.length>0){
+        document.getElementById(cittaId).value=d.places[0]['place name'];
+        document.getElementById(provId).value=(d.places[0]['state abbreviation']||'').substring(0,2).toUpperCase();
+      }
+    }).catch(function(){});
+}
+
+function showFarmaciaFields(){
+  var ids=['f1','f2','f3','f4','f5'];
+  ids.forEach(function(id,i){setTimeout(function(){document.getElementById(id).classList.add('visible');},i*110);});
+}
+
+function enableManual(){
+  var res=document.getElementById('piva-result');
+  res.className='piva-result show';
+  res.innerHTML='Inserimento manuale attivato — compila i campi sottostanti';
+  document.getElementById('manual-btn').style.display='none';
+  document.getElementById('f-piva').className='field-input';
+  showFarmaciaFields();
+}
+
+function lookupPIVA(el){
+  var v=el.value.replace(/\D/g,'');el.value=v;
+  var res=document.getElementById('piva-result');
+  var spin=document.getElementById('piva-spinner');
+  var mBtn=document.getElementById('manual-btn');
+  if(pivaTimer)clearTimeout(pivaTimer);
+  res.className='piva-result';res.innerHTML='';mBtn.style.display='none';
+  ['f1','f2','f3','f4','f5'].forEach(function(id){document.getElementById(id).classList.remove('visible');});
+  if(v.length!==11){spin.style.display='none';return;}
+  spin.style.display='block';
+  pivaTimer=setTimeout(function(){
+    fetch('/api/vies/'+v)
+      .then(function(r){return r.json();})
+      .then(function(d){
+        spin.style.display='none';
+        if(d.isValid&&d.name&&d.name!=='---'&&d.name.trim()!==''){
+          var name=d.name.trim();
+          res.className='piva-result show';
+          res.innerHTML='✓ <strong>'+name+'</strong> — P.IVA verificata VIES';
+          el.className='field-input valid';
+          document.getElementById('f-ragsoc').value=name;
+          if(d.address){var addr=d.address.split('\n');if(addr[0])document.getElementById('f-via2').value=addr[0];}
+          showFarmaciaFields();
+        } else if(d.isValid){
+          res.className='piva-result show';
+          res.innerHTML='✓ P.IVA valida — ragione sociale non disponibile nel registro VIES';
+          el.className='field-input valid';
+          showFarmaciaFields();
+        } else {
+          res.className='piva-result show error';
+          res.innerHTML='✗ P.IVA non trovata su VIES — verifica il numero o inserisci i dati manualmente';
+          el.className='field-input invalid';
+          mBtn.style.display='inline-block';
+        }
+      })
+      .catch(function(err){
+        spin.style.display='none';
+        res.className='piva-result show error';
+        res.innerHTML='Verifica VIES non disponibile. <br>Puoi inserire i dati manualmente.';
+        mBtn.style.display='inline-block';
+      });
+  },900);
+}
+
+function delay(ms){return new Promise(function(r){setTimeout(r,ms);});}
+async function showBillingFields(ids,bid){
+  document.getElementById(bid).classList.add('visible');
+  for(var i=0;i<ids.length;i++){await delay(i===0?100:90);document.getElementById(ids[i]).classList.add('visible');}
+}
+function hideBillingFields(ids,bid){
+  document.getElementById(bid).classList.remove('visible');
+  ids.forEach(function(id){document.getElementById(id).classList.remove('visible');});
+}
+async function switchType(type){
+  if(currentType===type)return;
+  if(currentType==='privato')hideBillingFields(['p1','p2','p3'],'badge-privato');
+  if(currentType==='farmacia'){
+    hideBillingFields(['fa0','f1','f2','f3','f4','f5'],'badge-farmacia');
+    document.getElementById('piva-result').className='piva-result';
+    document.getElementById('manual-btn').style.display='none';
+  }
+  document.getElementById('btn-privato').className='toggle-btn'+(type==='privato'?' active':'');
+  document.getElementById('btn-farmacia').className='toggle-btn'+(type==='farmacia'?' active':'');
+  currentType=type;await delay(80);
+  if(type==='privato')await showBillingFields(['p1','p2','p3'],'badge-privato');
+  if(type==='farmacia')await showBillingFields(['fa0'],'badge-farmacia');
+}
+
+function toggleQuiz(){
+  quizOpen=!quizOpen;
+  document.getElementById('quiz-section').className='quiz-section-wrap'+(quizOpen?' open':'');
+  document.getElementById('quiz-toggle').className='quiz-toggle-btn'+(quizOpen?' open':'');
+  document.getElementById('quiz-chevron').className='quiz-chevron'+(quizOpen?' rotated':'');
+  document.getElementById('quiz-btn-label').textContent=quizOpen?'Nascondi il quiz':'Inizia il quiz (5 domande)';
+}
+
+function renderQuiz(){
+  var c=document.getElementById('qcont');c.innerHTML='';
+  questions.forEach(function(q,qi){
+    var b=document.createElement('div');b.className='question-block';
+    b.innerHTML='<div class="question-text"><span class="q-number">'+(qi+1)+'</span>'+q.text+'</div>';
+    q.options.forEach(function(opt,oi){
+      var o=document.createElement('div');o.className='answer-option';o.id='opt-'+qi+'-'+oi;
+      o.innerHTML='<div class="answer-radio" id="radio-'+qi+'-'+oi+'"></div><div class="answer-text">'+opt+'</div>';
+      o.onclick=function(){selectA(qi,oi);};b.appendChild(o);
+    });
+    c.appendChild(b);
+  });
+}
+function selectA(qi,oi){
+  if(qSubmitted)return;
+  questions[qi].options.forEach(function(_,i){document.getElementById('opt-'+qi+'-'+i).className='answer-option';document.getElementById('radio-'+qi+'-'+i).className='answer-radio';});
+  document.getElementById('opt-'+qi+'-'+oi).className='answer-option selected';
+  document.getElementById('radio-'+qi+'-'+oi).className='answer-radio checked';
+  qAnswers[qi]=oi;
+  var cnt=Object.keys(qAnswers).length;
+  document.getElementById('qpf').style.width=Math.round((cnt/5)*100)+'%';
+  document.getElementById('qpl').textContent=cnt+' / 5';
+  document.getElementById('qsbtn').disabled=cnt<5;
+}
+function submitQuiz(){
+  if(qSubmitted)return;qSubmitted=true;var correct=0;
+  questions.forEach(function(q,qi){
+    var ua=qAnswers[qi];
+    q.options.forEach(function(_,oi){
+      var opt=document.getElementById('opt-'+qi+'-'+oi),radio=document.getElementById('radio-'+qi+'-'+oi);
+      if(oi===q.correct){opt.className='answer-option correct';radio.className='answer-radio correct-dot';if(ua===oi)correct++;}
+      else if(oi===ua&&ua!==q.correct){opt.className='answer-option wrong';radio.className='answer-radio wrong-dot';}
+    });
+  });
+  document.getElementById('qscore').style.display='block';
+  document.getElementById('qsn').textContent=correct+'/5';
+  var msgs=["Ottimo punto di partenza — il corso ti darà una base solida.","Buona base — approfondiremo tutti questi temi.","Buona preparazione — il corso amplierà le tue competenze.","Ottima preparazione di base!","Eccellente — sarà un corso molto stimolante per te."];
+  document.getElementById('qsm').textContent=msgs[correct];
+  document.getElementById('qsbtn').textContent='Grazie per aver risposto!';
+  document.getElementById('qsbtn').disabled=true;
+}
+function buildRecap(){
+  var html='';
+  function section(title,rows){
+    html+='<div class="recap-box"><div class="recap-title">'+title+'</div>';
+    rows.forEach(function(r){if(r[1])html+='<div class="recap-row"><div class="recap-key">'+r[0]+'</div><div class="recap-val">'+r[1]+'</div></div>';});
+    html+='</div>';
+  }
+  section('Corso',[['Corso',document.getElementById('f-corso').value]]);
+  section('Dati personali',[
+    ['Nome e cognome',(document.getElementById('f-nome').value+' '+document.getElementById('f-cognome').value).trim()],
+    ['Email',document.getElementById('f-email').value],
+    ['Telefono',document.getElementById('f-tel').value],
+    ['Ruolo',document.getElementById('f-ruolo').value]
+  ]);
+  if(currentType==='privato'){
+    section('Fatturazione',[['Tipo','Privato'],['CF',document.getElementById('f-cf').value],['Indirizzo',document.getElementById('f-via').value],['Città',document.getElementById('f-citta').value+' '+document.getElementById('f-cap').value]]);
+  } else if(currentType==='farmacia'){
+    section('Fatturazione',[['Tipo','Farmacia / Azienda'],['P.IVA',document.getElementById('f-piva').value],['Ragione sociale',document.getElementById('f-ragsoc').value],['SDI/PEC',document.getElementById('f-sdi').value],['Sede',document.getElementById('f-via2').value+' '+document.getElementById('f-citta2').value]]);
+  }
+  var all=document.getElementById('f-allergie').value,note=document.getElementById('f-note').value;
+  if(all||note)section('Note',[['Allergie',all||'Nessuna'],['Note',note||'—']]);
+  document.getElementById('recap-content').innerHTML=html;
+}
+function submitForm(){
+  document.getElementById('success-box').style.display='block';
+  document.getElementById('recap-content').style.display='none';
+  document.querySelector('#sec-6 .privacy-row').style.display='none';
+  document.querySelector('#sec-6 .form-nav').style.display='none';
+}
+renderQuiz();
+</script>
+</body>
+</html>

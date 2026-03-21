@@ -790,6 +790,7 @@ function renderQuiz(){
 }
 function selectA(qi,oi){
   if(qSubmitted)return;
+  var activeQ=getActiveQuiz();
   activeQ[qi].options.forEach(function(_,i){document.getElementById('opt-'+qi+'-'+i).className='answer-option';document.getElementById('radio-'+qi+'-'+i).className='answer-radio';});
   document.getElementById('opt-'+qi+'-'+oi).className='answer-option selected';
   document.getElementById('radio-'+qi+'-'+oi).className='answer-radio checked';

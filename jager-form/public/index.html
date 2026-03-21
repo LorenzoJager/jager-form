@@ -191,6 +191,14 @@ select.field-input{cursor:pointer;}
       <circle cx="9.5" cy="16" r="0.8" fill="#0d6fa8"/>
       <circle cx="13" cy="17.5" r="0.8" fill="#0d6fa8"/>
     </symbol>
+    <symbol id="icon-sterili" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="5" y1="19" x2="10" y2="14"/>
+      <path d="M14.5 4.5 L19.5 9.5"/>
+      <path d="M10 14 L6 10 L14 2 L18 6 L10 14z"/>
+      <line x1="11" y1="5" x2="7" y2="9"/>
+      <line x1="13" y1="7" x2="9" y2="11"/>
+      <path d="M5 19 Q3 21 2 22"/>
+    </symbol>
     <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="#0f6e56" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="20 6 9 17 4 12"/>
     </symbol>
@@ -199,16 +207,16 @@ select.field-input{cursor:pointer;}
 
 <nav class="site-nav">
   <div class="nav-logo">
-    <div class="nav-logo-icon">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-    </div>
     <div>
-      <div class="nav-name">JAGER GALENICA</div>
-      <div class="nav-sub">Scuola di Galenica · Cortona</div>
+      <div style="font-size:17px;font-weight:700;letter-spacing:0.05em;color:#fff;">JÄGER GALENICA</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.8);margin-top:2px;font-weight:400;">Scuola Galenica del Dr. Peter Jäger</div>
+    </div>
+  </div>
+      <div class="nav-sub">Scuola Galenica del Dr. Peter Jäger</div>
     </div>
   </div>
   <div class="nav-right">
-    <div class="nav-links"><span>Corsi</span><span>Chi siamo</span><span>Contatti</span></div>
+    <div class="nav-links"><a href="https://galenica.my.canva.site/farmacisti-ctf" target="_blank" style="color:rgba(255,255,255,0.7);font-size:12px;text-decoration:none;">Corsi</a><a href="https://corsigalenicajager.it" target="_blank" style="color:rgba(255,255,255,0.7);font-size:12px;text-decoration:none;">Chi siamo</a><a href="https://www.instagram.com/galenica.pratica/" target="_blank" style="color:rgba(255,255,255,0.7);font-size:12px;text-decoration:none;">Contatti</a></div>
     <div class="nav-email">lorenzo@jagergalenica.it</div>
   </div>
 </nav>
@@ -216,7 +224,7 @@ select.field-input{cursor:pointer;}
 <div class="hero-band">
   <h1>Modulo di Iscrizione</h1>
   <p>Compila il form per iscriverti al corso. Riceverai una conferma via email.</p>
-  <div class="hero-email">Per informazioni: <a href="mailto:lorenzo@jagergalenica.it">lorenzo@jagergalenica.it</a></div>
+  <div class="hero-email">Per informazioni: <a href="mailto:lorenzo@jagergalenica.it">lorenzo@jagergalenica.it</a> &nbsp;|&nbsp; <a href="tel:+393406219415">+39 340 621 9415</a></div>
 </div>
 
 <div class="form-progress">
@@ -244,11 +252,15 @@ select.field-input{cursor:pointer;}
           </div>
           <div><div class="course-name">Compresse</div><div class="course-dates">17 · 18 · 19 Aprile 2026</div></div>
         </div>
-        <div class="course-btn" id="cbtn-2" onclick="selectCourse('Cannabis Terapeutica — 29, 30, 31 Maggio 2026','cbtn-2','white')">
+<div class="course-btn" id="cbtn-2" onclick="selectCourse('Cannabis Terapeutica — 29, 30, 31 Maggio 2026','cbtn-2','white')">
           <div class="course-icon" id="cicon-2">
             <svg width="26" height="26" stroke="#0d6fa8"><use href="#icon-cannabis"/></svg>
           </div>
           <div><div class="course-name">Cannabis Terapeutica</div><div class="course-dates">29 · 30 · 31 Maggio 2026</div></div>
+        </div>
+<div class="course-btn" id="cbtn-3" onclick="selectCourse('Preparazioni Sterili — 12, 13, 14 Giugno 2026','cbtn-3')">
+          <div class="course-icon" id="cicon-3"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0d6fa8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="10" y2="14"/><path d="M14.5 4.5 L19.5 9.5"/><path d="M10 14 L6 10 L14 2 L18 6 L10 14z"/><line x1="11" y1="5" x2="7" y2="9"/><line x1="13" y1="7" x2="9" y2="11"/></svg></div>
+          <div><div class="course-name">Preparazioni Sterili</div><div class="course-dates">12 · 13 · 14 Giugno 2026</div></div>
         </div>
       </div>
       <input type="hidden" id="f-corso" value=""/>
@@ -423,15 +435,50 @@ select.field-input{cursor:pointer;}
       <div class="allergy-box">
         <div class="allergy-label">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7a5c00" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          ALLERGIE ALIMENTARI
+          PREFERENZE E ALLERGIE ALIMENTARI
         </div>
-        <div class="allergy-sub">Indica eventuali allergie o intolleranze alimentari per la gestione dei pasti durante il corso.</div>
-        <textarea class="field-input" id="f-allergie" rows="2" placeholder="Es. celiachia, allergia alle noci, intolleranza al lattosio..."></textarea>
+        <div class="allergy-sub">Indica le tue preferenze e allergie — informazioni utili per organizzare i pasti durante il corso.</div>
+        <div style="margin-top:10px;margin-bottom:10px;">
+          <div style="display:grid;grid-template-columns:1fr auto;align-items:center;padding:6px 0 8px;border-bottom:1.5px solid #e8c840;margin-bottom:6px;">
+            <button onclick="segnaNoTutti()" type="button" style="background:#fff8e1;border:1px solid #e8c840;color:#7a5c00;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;">Segna tutti NO</button>
+            <div style="display:flex;gap:24px;padding-right:8px;">
+              <span style="font-size:14px;font-weight:800;color:#2a7a00;width:28px;text-align:center;">SI</span>
+              <span style="font-size:14px;font-weight:800;color:#c0392b;width:28px;text-align:center;">NO</span>
+            </div>
+          </div>
+          <div id="all-row-vegetariano" class="all-row" style="display:grid;grid-template-columns:1fr auto;align-items:center;padding:9px 0;border-bottom:0.5px solid #f9f0c8;">
+            <span style="font-size:13px;color:#5a4000;">Vegetariano</span>
+            <div style="display:flex;gap:24px;padding-right:8px;">
+              <input type="radio" name="all-vegetariano" value="si" style="width:18px;height:18px;cursor:pointer;accent-color:#0d6fa8;" onchange="checkAllergie()">
+              <input type="radio" name="all-vegetariano" value="no" style="width:18px;height:18px;cursor:pointer;accent-color:#0d6fa8;" onchange="checkAllergie()">
+            </div>
+          </div>
+          <div id="all-row-vegano" class="all-row" style="display:grid;grid-template-columns:1fr auto;align-items:center;padding:9px 0;border-bottom:0.5px solid #f9f0c8;">
+            <span style="font-size:13px;color:#5a4000;">Vegano</span>
+            <div style="display:flex;gap:24px;padding-right:8px;">
+              <input type="radio" name="all-vegano" value="si" style="width:18px;height:18px;cursor:pointer;accent-color:#0d6fa8;" onchange="checkAllergie()">
+              <input type="radio" name="all-vegano" value="no" style="width:18px;height:18px;cursor:pointer;accent-color:#0d6fa8;" onchange="checkAllergie()">
+            </div>
+          </div>
+          <div id="all-row-lattosio" class="all-row" style="display:grid;grid-template-columns:1fr auto;align-items:center;padding:9px 0;border-bottom:0.5px solid #f9f0c8;">
+            <span style="font-size:13px;color:#5a4000;">Intolleranza al lattosio</span>
+            <div style="display:flex;gap:24px;padding-right:8px;">
+              <input type="radio" name="all-lattosio" value="si" style="width:18px;height:18px;cursor:pointer;accent-color:#0d6fa8;" onchange="checkAllergie()">
+              <input type="radio" name="all-lattosio" value="no" style="width:18px;height:18px;cursor:pointer;accent-color:#0d6fa8;" onchange="checkAllergie()">
+            </div>
+          </div>
+          <div id="all-row-celiaco" class="all-row" style="display:grid;grid-template-columns:1fr auto;align-items:center;padding:9px 0;">
+            <span style="font-size:13px;color:#5a4000;">Celiachia / Glutine</span>
+            <div style="display:flex;gap:24px;padding-right:8px;">
+              <input type="radio" name="all-celiaco" value="si" style="width:18px;height:18px;cursor:pointer;accent-color:#0d6fa8;" onchange="checkAllergie()">
+              <input type="radio" name="all-celiaco" value="no" style="width:18px;height:18px;cursor:pointer;accent-color:#0d6fa8;" onchange="checkAllergie()">
+            </div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:#9a7a1a;margin-bottom:5px;font-weight:500;">Altre allergie o note per la cucina</div>
+        <textarea class="field-input" id="f-allergie" rows="2" placeholder="Es. allergia alle arachidi, diabetico, preferenze particolari..." style="background:#fff;"></textarea>
       </div>
-      <div class="field-single">
-        <div class="field-label">Altre note o richieste particolari</div>
-        <textarea class="field-input" id="f-note" rows="2" placeholder="Eventuali esigenze logistiche o domande..."></textarea>
-      </div>
+
       <div class="form-nav">
         <button class="btn-back" onclick="if(validateStep(2))goTo(3)">← Indietro</button>
         <button class="btn-next" onclick="goTo(5)">Avanti →</button>
@@ -545,6 +592,14 @@ function goTo(s){
 }
 
 function selectCourse(val,id){
+  var isStepQuizVisible = !val.includes('Sterili');
+  var dot5 = document.getElementById('dot-5');
+  var line4 = document.getElementById('line-4');
+  var dot6 = document.getElementById('dot-6');
+  var line5 = document.getElementById('line-5');
+  if(dot5){dot5.parentElement.style.display = isStepQuizVisible ? '' : 'none';}
+  if(line4){line4.style.display = isStepQuizVisible ? '' : 'none';}
+  window.skipQuiz = !isStepQuizVisible;
   var btn=document.getElementById('btn-avanti-1');
   if(btn)btn.disabled=false;
   document.getElementById('f-corso').value=val;
@@ -707,9 +762,22 @@ function toggleQuiz(){
   document.getElementById('quiz-btn-label').textContent=quizOpen?'Nascondi il quiz':'Inizia il quiz (5 domande)';
 }
 
+var quizCompresse=[
+  {text:"Cosa si intende per preparazione galenica magistrale?",options:["Un farmaco prodotto industrialmente in serie","Una preparazione eseguita in farmacia su prescrizione medica individuale","Un integratore alimentare a base di erbe officinali"],correct:1},
+  {text:"Quale strumento viene utilizzato per pesare i principi attivi in laboratorio galenico?",options:["Misurino volumetrico graduato","Densimetro ad immersione","Bilancia analitica di precisione"],correct:2},
+  {text:"Cosa indica la sigla FU nel contesto della farmacia italiana?",options:["Farmaco ad Uso urgente","Farmacopea Ufficiale della Repubblica Italiana","Formulazione Unificata per preparati officinali"],correct:1},
+  {text:"In cosmetologia, un'emulsione O/A indica:",options:["Acqua dispersa in fase oleosa continua","Olio disperso in fase acquosa continua","Una miscela anidra di oli vegetali e cere"],correct:1},
+  {text:"Quale delle seguenti è una forma farmaceutica semisolida tipicamente preparata in farmacia?",options:["Fiala per uso parenterale","Compressa a rilascio modificato","Unguento o crema galenica"],correct:2}
+];
+var quizCannabis=[];
+function getActiveQuiz(){
+  var corso=document.getElementById('f-corso').value;
+  if(corso.includes('Cannabis'))return quizCannabis;
+  return quizCompresse;
+}
 function renderQuiz(){
   var c=document.getElementById('qcont');c.innerHTML='';
-  questions.forEach(function(q,qi){
+  var activeQ=getActiveQuiz();if(activeQ.length===0){var c=document.getElementById('qcont');c.innerHTML='<div style="text-align:center;padding:20px;color:#666;font-size:13px;">Le domande per questo corso saranno disponibili a breve.</div>';return;}activeQ.forEach(function(q,qi){
     var b=document.createElement('div');b.className='question-block';
     b.innerHTML='<div class="question-text"><span class="q-number">'+(qi+1)+'</span>'+q.text+'</div>';
     q.options.forEach(function(opt,oi){
@@ -722,7 +790,7 @@ function renderQuiz(){
 }
 function selectA(qi,oi){
   if(qSubmitted)return;
-  questions[qi].options.forEach(function(_,i){document.getElementById('opt-'+qi+'-'+i).className='answer-option';document.getElementById('radio-'+qi+'-'+i).className='answer-radio';});
+  activeQ[qi].options.forEach(function(_,i){document.getElementById('opt-'+qi+'-'+i).className='answer-option';document.getElementById('radio-'+qi+'-'+i).className='answer-radio';});
   document.getElementById('opt-'+qi+'-'+oi).className='answer-option selected';
   document.getElementById('radio-'+qi+'-'+oi).className='answer-radio checked';
   qAnswers[qi]=oi;
@@ -733,7 +801,7 @@ function selectA(qi,oi){
 }
 function submitQuiz(){
   if(qSubmitted)return;qSubmitted=true;var correct=0;
-  questions.forEach(function(q,qi){
+  var activeQ=getActiveQuiz();if(activeQ.length===0){var c=document.getElementById('qcont');c.innerHTML='<div style="text-align:center;padding:20px;color:#666;font-size:13px;">Le domande per questo corso saranno disponibili a breve.</div>';return;}activeQ.forEach(function(q,qi){
     var ua=qAnswers[qi];
     q.options.forEach(function(_,oi){
       var opt=document.getElementById('opt-'+qi+'-'+oi),radio=document.getElementById('radio-'+qi+'-'+oi);
@@ -772,10 +840,68 @@ function buildRecap(){
   document.getElementById('recap-content').innerHTML=html;
 }
 function submitForm(){
-  document.getElementById('success-box').style.display='block';
-  document.getElementById('recap-content').style.display='none';
-  document.querySelector('#sec-6 .privacy-row').style.display='none';
-  document.querySelector('#sec-6 .form-nav').style.display='none';
+  var gdpr=document.getElementById('gdpr-check');
+  if(!gdpr.checked){alert('Devi accettare la privacy policy per procedere.');return;}
+
+  var tipoFatt=currentType||'';
+  var prefAlimentari='Vegetariano: '+( document.querySelector('input[name="all-vegetariano"]:checked')?document.querySelector('input[name="all-vegetariano"]:checked').value:'—')+
+    ' | Vegano: '+(document.querySelector('input[name="all-vegano"]:checked')?document.querySelector('input[name="all-vegano"]:checked').value:'—')+
+    ' | Lattosio: '+(document.querySelector('input[name="all-lattosio"]:checked')?document.querySelector('input[name="all-lattosio"]:checked').value:'—')+
+    ' | Celiaco: '+(document.querySelector('input[name="all-celiaco"]:checked')?document.querySelector('input[name="all-celiaco"]:checked').value:'—');
+
+  var quizRisposte='';
+  if(Object.keys(qAnswers).length>0){
+    var activeQ=getActiveQuiz();
+    quizRisposte=Object.keys(qAnswers).map(function(qi){
+      return 'Q'+(parseInt(qi)+1)+': '+activeQ[qi].options[qAnswers[qi]];
+    }).join(' | ');
+  }
+
+  var payload={
+    corso: document.getElementById('f-corso').value,
+    nome: document.getElementById('f-nome').value,
+    cognome: document.getElementById('f-cognome').value,
+    email: document.getElementById('f-email').value,
+    telefono: document.getElementById('f-tel').value,
+    ruolo: document.getElementById('f-ruolo').value,
+    tipo_fatturazione: tipoFatt,
+    cf: tipoFatt==='privato'?(document.getElementById('f-cf').value||''):'',
+    piva: tipoFatt==='farmacia'?(document.getElementById('f-piva').value||''):'',
+    ragione_sociale: tipoFatt==='farmacia'?(document.getElementById('f-ragsoc').value||''):'',
+    indirizzo: tipoFatt==='privato'?(document.getElementById('f-via').value||''):(document.getElementById('f-via2').value||''),
+    cap: tipoFatt==='privato'?(document.getElementById('f-cap').value||''):(document.getElementById('f-cap2').value||''),
+    citta: tipoFatt==='privato'?(document.getElementById('f-citta').value||''):(document.getElementById('f-citta2').value||''),
+    provincia: tipoFatt==='privato'?(document.getElementById('f-prov').value||''):(document.getElementById('f-prov2').value||''),
+    sdi: document.getElementById('f-sdi')?document.getElementById('f-sdi').value||'':'',
+    preferenze_alimentari: prefAlimentari,
+    note_allergie: document.getElementById('f-allergie').value||'',
+    quiz_risposte: quizRisposte
+  };
+
+  var btn=document.querySelector('#sec-6 .btn-next');
+  btn.disabled=true;btn.textContent='Invio in corso...';
+
+  fetch('/submit',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(payload)
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(d.success){
+      document.getElementById('success-box').style.display='block';
+      document.getElementById('recap-content').style.display='none';
+      document.querySelector('#sec-6 .privacy-row').style.display='none';
+      document.querySelector('#sec-6 .form-nav').style.display='none';
+    } else {
+      btn.disabled=false;btn.textContent='Invia iscrizione';
+      alert('Errore durante l'invio. Riprova o contatta iscrizioni@jagergalenica.it');
+    }
+  })
+  .catch(function(){
+    btn.disabled=false;btn.textContent='Invia iscrizione';
+    alert('Errore di connessione. Riprova o contatta iscrizioni@jagergalenica.it');
+  });
 }
 renderQuiz();
 
@@ -844,6 +970,23 @@ function lookupPIVA(el){
         var mb=document.getElementById('vies-manual-timeout-btn');if(mb)mb.style.display='block';
       });
   },900);
+}
+
+function checkAllergie(){
+  var names=['vegetariano','vegano','lattosio','celiaco'];
+  var allDone=names.every(function(n){
+    return document.querySelector('input[name="all-'+n+'"]:checked');
+  });
+  var btn=document.getElementById('btn-avanti-4');
+  if(btn)btn.disabled=!allDone;
+}
+
+function segnaNoTutti(){
+  ['vegetariano','vegano','lattosio','celiaco'].forEach(function(n){
+    var radio=document.querySelector('input[name="all-'+n+'"][value="no"]');
+    if(radio){radio.checked=true;}
+  });
+  checkAllergie();
 }
 </script>
 </body>

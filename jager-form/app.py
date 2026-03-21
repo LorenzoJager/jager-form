@@ -38,6 +38,22 @@ def cap_lookup(cap):
 @app.route('/submit', methods=['POST'])
 def submit():
     data = request.get_json()
+    # Se farmacia e ragione sociale vuota, prova a recuperarla da VIES
+    ragione_sociale = data.get("ragione_sociale", "")
+    indirizzo = data.get("indirizzo", "")
+    if data.get("tipo_fatturazione") == "farmacia" and not ragione_sociale:
+        piva = data.get("piva", "")
+        if piva:
+            try:
+                vies_r = requests.get(f"https://ec.europa.eu/taxation_customs/vies/rest-api/ms/IT/vat/{piva}", timeout=8)
+                vies_data = vies_r.json()
+                if vies_data.get("isValid") and vies_data.get("name") and vies_data["name"] != "---":
+                    ragione_sociale = vies_data["name"].strip()
+                if vies_data.get("address") and not indirizzo:
+                    indirizzo = vies_data["address"].replace("\n", ", ").strip()
+            except:
+                pass
+
     fields = {
         "Corso": data.get("corso", ""),
         "Nome": data.get("nome", ""),
@@ -48,8 +64,8 @@ def submit():
         "Tipo Fatturazione": data.get("tipo_fatturazione", ""),
         "CF": data.get("cf", ""),
         "P_IVA": data.get("piva", ""),
-        "Ragione Sociale": data.get("ragione_sociale", ""),
-        "Indirizzo": data.get("indirizzo", ""),
+        "Ragione Sociale": ragione_sociale,
+        "Indirizzo": indirizzo,
         "CAP": data.get("cap", ""),
         "Città": data.get("citta", ""),
         "Provincia": data.get("provincia", ""),

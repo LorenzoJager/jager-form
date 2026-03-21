@@ -831,10 +831,11 @@ function buildRecap(){
     ['Telefono',document.getElementById('f-tel').value],
     ['Ruolo',document.getElementById('f-ruolo').value]
   ]);
+  function gv(id){var el=document.getElementById(id);return el?el.value:'';}
   if(currentType==='privato'){
-    section('Fatturazione',[['Tipo','Privato'],['CF',document.getElementById('f-cf').value],['Indirizzo',document.getElementById('f-via').value],['Città',document.getElementById('f-citta').value+' '+document.getElementById('f-cap').value]]);
+    section('Fatturazione',[['Tipo','Privato'],['CF',gv('f-cf')],['Indirizzo',gv('f-via')],['Città',gv('f-citta')+' '+gv('f-cap')]]);
   } else if(currentType==='farmacia'){
-    section('Fatturazione',[['Tipo','Farmacia / Azienda'],['P.IVA',document.getElementById('f-piva').value],['Ragione sociale',document.getElementById('f-ragsoc').value],['SDI/PEC',document.getElementById('f-sdi').value],['Sede',document.getElementById('f-via2').value+' '+document.getElementById('f-citta2').value]]);
+    section('Fatturazione',[['Tipo','Farmacia / Azienda'],['P.IVA',gv('f-piva')],['Ragione sociale',gv('f-ragsoc')],['SDI',gv('f-sdi')],['Sede',gv('f-via2')+' '+gv('f-citta2')]]);
   }
   var all=document.getElementById('f-allergie')?document.getElementById('f-allergie').value:'';
   if(all)section('Note',[['Preferenze alimentari',all||'Nessuna']]);

@@ -291,6 +291,23 @@ select.field-input{cursor:pointer;}
           Numero usato per aggiungerti al gruppo WhatsApp del corso
         </div>
       </div>
+      <div class="field-single" style="margin-top:4px;">
+        <button type="button" onclick="toggleAccompagnatori()" id="btn-accomp" style="width:100%;padding:10px 14px;border:1.5px dashed #0d6fa8;border-radius:8px;background:#f0f8ff;color:#0d6fa8;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;text-align:left;display:flex;align-items:center;gap:8px;">
+          <span style="font-size:16px;">👥</span> Vieni con un accompagnatore?
+        </button>
+        <div id="accomp-wrap" style="display:none;margin-top:10px;background:#e8f3fb;border-radius:10px;padding:14px 16px;border:1px solid #a8d4ee;">
+          <div style="font-size:13px;font-weight:600;color:#0a4f7a;margin-bottom:4px;">Quanti accompagnatori vengono con te?</div>
+          <div style="font-size:12px;color:#555;margin-bottom:12px;">Seleziona il numero di persone <strong>in aggiunta a te</strong> — il totale in aula sarà quindi il numero selezionato + 1.</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button type="button" onclick="selAccomp(1)" id="accomp-btn-1" style="width:56px;height:56px;border-radius:10px;border:2px solid #0d6fa8;background:#fff;color:#0d6fa8;font-size:18px;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.15s;">1</button>
+            <button type="button" onclick="selAccomp(2)" id="accomp-btn-2" style="width:56px;height:56px;border-radius:10px;border:2px solid #0d6fa8;background:#fff;color:#0d6fa8;font-size:18px;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.15s;">2</button>
+            <button type="button" onclick="selAccomp(3)" id="accomp-btn-3" style="width:56px;height:56px;border-radius:10px;border:2px solid #0d6fa8;background:#fff;color:#0d6fa8;font-size:18px;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.15s;">3</button>
+            <button type="button" onclick="selAccomp(4)" id="accomp-btn-4" style="width:56px;height:56px;border-radius:10px;border:2px solid #0d6fa8;background:#fff;color:#0d6fa8;font-size:18px;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.15s;">4</button>
+          </div>
+          <input type="hidden" id="f-accomp" value=""/>
+          <div id="accomp-totale" style="display:none;margin-top:10px;font-size:12px;color:#0a4f7a;background:#fff;border-radius:8px;padding:8px 12px;border:1px solid #a8d4ee;"></div>
+        </div>
+      </div>
       <div class="divider"></div>
       <div class="section-label">Profilo professionale</div>
       <div class="field-label" style="margin-bottom:10px;">Sei un/una <span class="required">*</span></div>
@@ -531,9 +548,9 @@ select.field-input{cursor:pointer;}
       <div class="section-title">Riepilogo iscrizione</div>
       <div class="section-sub">Verifica i tuoi dati prima di inviare</div>
       <div id="recap-content"></div>
-      <div class="privacy-row">
-        <input type="checkbox" id="gdpr-check"/>
-        <span>Acconsento al trattamento dei miei dati personali ai sensi del Regolamento UE 2016/679 (GDPR). <a href="#" style="color:#0d6fa8;">Leggi l'informativa</a></span>
+      <div class="privacy-row" style="background:#f0f8ff;border:1.5px solid #0d6fa8;border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:flex-start;gap:12px;">
+        <input type="checkbox" id="gdpr-check" style="width:22px;height:22px;min-width:22px;cursor:pointer;accent-color:#0d6fa8;margin-top:2px;"/>
+        <span style="font-size:13px;color:#1a1a1a;line-height:1.6;">Acconsento al trattamento dei miei dati personali ai sensi del Regolamento UE 2016/679 (GDPR). <a href="#" style="color:#0d6fa8;font-weight:600;">Leggi l'informativa</a></span>
       </div>
       <div class="form-nav">
         <button class="btn-back" onclick="goTo(5)">← Modifica</button>
@@ -560,6 +577,31 @@ var questions=[
   {text:"Per comprimere un principio attivo liquido oleoso, quale eccipiente è più adatto e quale strumento si usa preferibilmente?",options:["Lattosio spray-dried, nel mortaio","Gel di silice colloidale, nel micronizzatore a lame","Cellulosa microcristallina, nel granulatore a umido","Amido pregelatinizzato, nel mescolatore a V"],correct:1}
 ];
 
+function selAccomp(n){
+  document.getElementById('f-accomp').value=n;
+  [1,2,3,4].forEach(function(i){
+    var btn=document.getElementById('accomp-btn-'+i);
+    if(i===n){btn.style.background='#0d6fa8';btn.style.color='#fff';}
+    else{btn.style.background='#fff';btn.style.color='#0d6fa8';}
+  });
+  var tot=document.getElementById('accomp-totale');
+  tot.style.display='block';
+  tot.innerHTML='✅ Totale persone in aula: <strong>'+(n+1)+'</strong> (tu + '+n+' accompagnator'+(n===1?'e':'i')+')';
+}
+function toggleAccompagnatori(){
+  var wrap=document.getElementById('accomp-wrap');
+  var btn=document.getElementById('btn-accomp');
+  if(wrap.style.display==='none'){
+    wrap.style.display='block';
+    btn.style.background='#e8f3fb';
+    btn.innerHTML='<span style="font-size:16px;">👥</span> Sì, vengo con accompagnatori';
+  } else {
+    wrap.style.display='none';
+    btn.style.background='#f0f8ff';
+    btn.innerHTML='<span style="font-size:16px;">👥</span> Vieni con un accompagnatore?';
+    document.getElementById('f-accomp').value='';
+  }
+}
 function checkStep2(){
   var nome=document.getElementById('f-nome').value.trim();
   var cognome=document.getElementById('f-cognome').value.trim();

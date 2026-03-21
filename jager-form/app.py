@@ -49,8 +49,25 @@ def submit():
                 vies_data = vies_r.json()
                 if vies_data.get("isValid") and vies_data.get("name") and vies_data["name"] != "---":
                     ragione_sociale = vies_data["name"].strip()
-                if vies_data.get("address") and not indirizzo:
-                    indirizzo = vies_data["address"].replace("\n", ", ").strip()
+                if vies_data.get("address"):
+                    raw = vies_data["address"].replace("\n", " ").strip()
+                    import re
+                    cap_match = re.search(r'\b(\d{5})\b', raw)
+                    if cap_match:
+                        cap_val = cap_match.group(1)
+                        data["cap"] = cap_val
+                        after_cap = raw[cap_match.end():].strip().rstrip(',').strip()
+                        parts = after_cap.split()
+                        if len(parts) >= 2:
+                            data["provincia"] = parts[-1]
+                            data["citta"] = ' '.join(parts[:-1])
+                        elif len(parts) == 1:
+                            data["citta"] = parts[0]
+                        before_cap = raw[:cap_match.start()].strip().rstrip(',').strip()
+                        if not indirizzo:
+                            indirizzo = before_cap
+                    elif not indirizzo:
+                        indirizzo = raw
             except:
                 pass
 

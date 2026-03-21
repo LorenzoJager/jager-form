@@ -836,8 +836,8 @@ function buildRecap(){
   } else if(currentType==='farmacia'){
     section('Fatturazione',[['Tipo','Farmacia / Azienda'],['P.IVA',document.getElementById('f-piva').value],['Ragione sociale',document.getElementById('f-ragsoc').value],['SDI/PEC',document.getElementById('f-sdi').value],['Sede',document.getElementById('f-via2').value+' '+document.getElementById('f-citta2').value]]);
   }
-  var all=document.getElementById('f-allergie').value,note=document.getElementById('f-note').value;
-  if(all||note)section('Note',[['Allergie',all||'Nessuna'],['Note',note||'—']]);
+  var all=document.getElementById('f-allergie')?document.getElementById('f-allergie').value:'';
+  if(all)section('Note',[['Preferenze alimentari',all||'Nessuna']]);
   document.getElementById('recap-content').innerHTML=html;
 }
 function submitForm(){

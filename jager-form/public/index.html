@@ -342,6 +342,8 @@ select.field-input{cursor:pointer;}
         <div class="field-label">Partita IVA <span class="required">*</span></div>
         <div class="piva-wrap">
           <input class="field-input" id="f-piva" type="text" placeholder="12345678901" maxlength="11" oninput="lookupPIVA(this)"/>
+        <input type="hidden" id="f-ragsoc-hidden" value=""/>
+        <input type="hidden" id="f-addr-hidden" value=""/>
           <div class="piva-spinner" id="piva-spinner"></div>
         <div id="vies-loading-text" style="display:none;margin-top:12px;border-radius:12px;overflow:hidden;border:2px solid #0d6fa8;">
           <div style="background:#0d6fa8;padding:12px 16px;display:flex;align-items:center;gap:12px;">
@@ -869,7 +871,7 @@ function submitForm(){
     tipo_fatturazione: tipoFatt,
     cf: tipoFatt==='privato'?(document.getElementById('f-cf').value||''):'',
     piva: tipoFatt==='farmacia'?(document.getElementById('f-piva').value||''):'',
-    ragione_sociale: tipoFatt==='farmacia'?(function(){var el=document.getElementById('vies-name-ok');var rs=document.getElementById('f-ragsoc');if(rs&&rs.value)return rs.value;if(el&&el.textContent&&el.textContent!=='—')return el.textContent;return '';})():'',
+    ragione_sociale: tipoFatt==='farmacia'?(document.getElementById('f-ragsoc-hidden')&&document.getElementById('f-ragsoc-hidden').value)||(document.getElementById('f-ragsoc')&&document.getElementById('f-ragsoc').value)||'':'',
     indirizzo: tipoFatt==='privato'?(document.getElementById('f-via').value||''):(document.getElementById('f-via2').value||''),
     cap: tipoFatt==='privato'?(document.getElementById('f-cap').value||''):(document.getElementById('f-cap2').value||''),
     citta: tipoFatt==='privato'?(document.getElementById('f-citta').value||''):(document.getElementById('f-citta2').value||''),
@@ -945,6 +947,8 @@ function lookupPIVA(el){
           var a=document.getElementById('vies-addr-ok');if(a)a.textContent=addr||'Indirizzo registrato VIES';
           var ragsoc=document.getElementById('f-ragsoc');if(ragsoc)ragsoc.value=name;
           var via2=document.getElementById('f-via2');if(via2&&addr)via2.value=addr;
+          var rh=document.getElementById('f-ragsoc-hidden');if(rh)rh.value=name;
+          var ah=document.getElementById('f-addr-hidden');if(ah&&addr)ah.value=addr;
           // Estrai CAP da indirizzo VIES e precompila campi nascosti
           var capMatch=addr.match(/\b(\d{5})\b/);
           if(capMatch){

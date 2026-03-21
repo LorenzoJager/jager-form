@@ -943,6 +943,8 @@ function lookupPIVA(el){
           if(err)err.style.display='none';
           var n=document.getElementById('vies-name-ok');if(n)n.textContent=name;
           var a=document.getElementById('vies-addr-ok');if(a)a.textContent=addr||'Indirizzo registrato VIES';
+          var ragsoc=document.getElementById('f-ragsoc');if(ragsoc)ragsoc.value=name;
+          var via2=document.getElementById('f-via2');if(via2&&addr)via2.value=addr;
           // Estrai CAP da indirizzo VIES e precompila campi nascosti
           var capMatch=addr.match(/\b(\d{5})\b/);
           if(capMatch){

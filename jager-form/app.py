@@ -41,7 +41,7 @@ def submit():
     # Se farmacia e ragione sociale vuota, prova a recuperarla da VIES
     ragione_sociale = data.get("ragione_sociale", "")
     indirizzo = data.get("indirizzo", "")
-    if data.get("tipo_fatturazione") == "farmacia" and not ragione_sociale:
+    if data.get("tipo_fatturazione") == "farmacia":
         piva = data.get("piva", "")
         if piva:
             try:

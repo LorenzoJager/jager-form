@@ -64,8 +64,16 @@ def submit():
                         elif len(parts) == 1:
                             data["citta"] = parts[0]
                         before_cap = raw[:cap_match.start()].strip().rstrip(',').strip()
+                        # Separa via e numero civico
+                        via_match = re.match(r'^(.*?)\s+(\d+\S*)\s*$', before_cap)
+                        if via_match:
+                            data["indirizzo_via"] = via_match.group(1).strip()
+                            data["numero_civico"] = via_match.group(2).strip()
+                        else:
+                            data["indirizzo_via"] = before_cap
+                            data["numero_civico"] = ""
                         if not indirizzo:
-                            indirizzo = before_cap
+                            indirizzo = data["indirizzo_via"]
                     elif not indirizzo:
                         indirizzo = raw
             except:
@@ -82,9 +90,10 @@ def submit():
         "CF": data.get("cf", ""),
         "P_IVA": data.get("piva", ""),
         "Ragione Sociale": ragione_sociale,
-        "Indirizzo": indirizzo,
+        "Indirizzo": data.get("indirizzo_via", indirizzo),
+        "Numero Civico": data.get("numero_civico", ""),
         "CAP": data.get("cap", ""),
-        "Città": data.get("citta", ""),
+        "Comune": data.get("citta", ""),
         "Provincia": data.get("provincia", ""),
         "SDI": data.get("sdi", ""),
         "Preferenze Alimentari": data.get("preferenze_alimentari", ""),

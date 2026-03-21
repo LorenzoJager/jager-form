@@ -869,7 +869,7 @@ function submitForm(){
     tipo_fatturazione: tipoFatt,
     cf: tipoFatt==='privato'?(document.getElementById('f-cf').value||''):'',
     piva: tipoFatt==='farmacia'?(document.getElementById('f-piva').value||''):'',
-    ragione_sociale: tipoFatt==='farmacia'?(document.getElementById('f-ragsoc').value||''):'',
+    ragione_sociale: tipoFatt==='farmacia'?((document.getElementById('f-ragsoc')&&document.getElementById('f-ragsoc').value)||(document.getElementById('vies-name-ok')&&document.getElementById('vies-name-ok').textContent)||''):'',
     indirizzo: tipoFatt==='privato'?(document.getElementById('f-via').value||''):(document.getElementById('f-via2').value||''),
     cap: tipoFatt==='privato'?(document.getElementById('f-cap').value||''):(document.getElementById('f-cap2').value||''),
     citta: tipoFatt==='privato'?(document.getElementById('f-citta').value||''):(document.getElementById('f-citta2').value||''),

@@ -101,20 +101,27 @@ def submit():
         "Quiz Risposte": data.get("quiz_risposte", ""),
         "Stato": "In attesa"
     }
+    partecipanti = data.get("partecipanti", [])
+    if not partecipanti:
+        partecipanti = [{"nome": data.get("nome",""), "cognome": data.get("cognome",""), "email": data.get("email",""), "telefono": data.get("telefono","")}]
+
     try:
-        r = requests.post(
-            f"https://api.airtable.com/v0/{BASE_ID}/{TABLE_ID}",
-            headers={
-                "Authorization": f"Bearer {AIRTABLE_TOKEN}",
-                "Content-Type": "application/json"
-            },
-            json={"fields": fields},
-            timeout=10
-        )
-        if r.ok:
-            return jsonify({"success": True})
-        else:
-            return jsonify({"success": False, "error": r.text}), 500
+        headers = {"Authorization": f"Bearer {AIRTABLE_TOKEN}", "Content-Type": "application/json"}
+        for p in partecipanti:
+            record = dict(fields)
+            record["Nome"] = p.get("nome", "")
+            record["Cognome"] = p.get("cognome", "")
+            record["Email"] = p.get("email", "")
+            record["Telefono"] = p.get("telefono", "")
+            r = requests.post(
+                f"https://api.airtable.com/v0/{BASE_ID}/{TABLE_ID}",
+                headers=headers,
+                json={"fields": record},
+                timeout=10
+            )
+            if not r.ok:
+                return jsonify({"success": False, "error": r.text}), 500
+        return jsonify({"success": True})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 

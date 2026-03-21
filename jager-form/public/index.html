@@ -271,26 +271,91 @@ select.field-input{cursor:pointer;}
     <div class="form-section" id="sec-2">
       <div class="section-title">Dati personali</div>
       <div class="section-sub">Inserisci i tuoi dati di contatto</div>
-      <div class="field-row">
-        <div><div class="field-label">Nome <span class="required">*</span></div><input class="field-input" id="f-nome" type="text" placeholder="Mario" oninput="checkStep2()"/></div>
-        <div><div class="field-label">Cognome <span class="required">*</span></div><input class="field-input" id="f-cognome" type="text" placeholder="Rossi" oninput="checkStep2()"/></div>
-      </div>
-      <div class="field-single">
-        <div class="field-label">Email <span class="required">*</span></div>
-        <input class="field-input" id="f-email" type="email" placeholder="mario@email.it" oninput="checkStep2()"/>
-        <div class="field-hint">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0d6fa8" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
-          Indirizzo usato per l'invio del materiale didattico post corso
+
+      <!-- Quanti si iscrivono -->
+      <div style="margin-bottom:16px;background:#f0f8ff;border:1.5px solid #0d6fa8;border-radius:10px;padding:14px 16px;">
+        <div style="font-size:13px;font-weight:600;color:#0a4f7a;margin-bottom:8px;">👥 Quanti si iscrivono al corso dalla stessa farmacia?</div>
+        <div style="display:flex;gap:10px;">
+          <button type="button" onclick="setNumIscritti(1)" id="ni-btn-1" style="width:52px;height:52px;border-radius:10px;border:2px solid #0d6fa8;background:#0d6fa8;color:#fff;font-size:18px;font-weight:700;cursor:pointer;font-family:inherit;">1</button>
+          <button type="button" onclick="setNumIscritti(2)" id="ni-btn-2" style="width:52px;height:52px;border-radius:10px;border:2px solid #0d6fa8;background:#fff;color:#0d6fa8;font-size:18px;font-weight:700;cursor:pointer;font-family:inherit;">2</button>
+          <button type="button" onclick="setNumIscritti(3)" id="ni-btn-3" style="width:52px;height:52px;border-radius:10px;border:2px solid #0d6fa8;background:#fff;color:#0d6fa8;font-size:18px;font-weight:700;cursor:pointer;font-family:inherit;">3</button>
+          <button type="button" onclick="setNumIscritti(4)" id="ni-btn-4" style="width:52px;height:52px;border-radius:10px;border:2px solid #0d6fa8;background:#fff;color:#0d6fa8;font-size:18px;font-weight:700;cursor:pointer;font-family:inherit;">4</button>
         </div>
       </div>
-      <div class="field-single">
-        <div class="field-label">Telefono <span class="required">*</span></div>
-        <input class="field-input" id="f-tel" type="tel" placeholder="+39 333 1234567" oninput="checkStep2()"/>
+
+      <!-- Partecipante 1 -->
+      <div id="partecipante-1">
+        <div style="font-size:12px;font-weight:600;color:#0d6fa8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;padding:6px 10px;background:#e8f3fb;border-radius:6px;">Partecipante 1</div>
+        <div class="field-row">
+          <div><div class="field-label">Nome <span class="required">*</span></div><input class="field-input" id="f-nome" type="text" placeholder="Mario" oninput="checkStep2()"/></div>
+          <div><div class="field-label">Cognome <span class="required">*</span></div><input class="field-input" id="f-cognome" type="text" placeholder="Rossi" oninput="checkStep2()"/></div>
+        </div>
+        <div class="field-single">
+          <div class="field-label">Email <span class="required">*</span></div>
+          <input class="field-input" id="f-email" type="email" placeholder="mario@email.it" oninput="checkStep2()"/>
+          <div class="field-hint"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0d6fa8" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg> Indirizzo usato per l'invio del materiale didattico post corso</div>
+        </div>
+        <div class="field-single">
+          <div class="field-label">Telefono <span class="required">*</span></div>
+          <input class="field-input" id="f-tel" type="tel" placeholder="+39 333 1234567" oninput="checkStep2()"/>
         <div class="field-hint">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.138.563 4.144 1.539 5.879L0 24l6.304-1.513A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.659-.5-5.195-1.375l-.371-.22-3.742.898.933-3.652-.242-.384A9.944 9.944 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
           Numero usato per aggiungerti al gruppo WhatsApp del corso
         </div>
       </div>
+      </div><!-- fine partecipante-1 -->
+
+      <!-- Partecipante 2 -->
+      <div id="partecipante-2" style="display:none;margin-top:16px;">
+        <div style="font-size:12px;font-weight:600;color:#0d6fa8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;padding:6px 10px;background:#e8f3fb;border-radius:6px;">Partecipante 2</div>
+        <div class="field-row">
+          <div><div class="field-label">Nome <span class="required">*</span></div><input class="field-input" id="f-nome-2" type="text" placeholder="Anna" oninput="checkStep2()"/></div>
+          <div><div class="field-label">Cognome <span class="required">*</span></div><input class="field-input" id="f-cognome-2" type="text" placeholder="Verdi" oninput="checkStep2()"/></div>
+        </div>
+        <div class="field-single">
+          <div class="field-label">Email <span class="required">*</span></div>
+          <input class="field-input" id="f-email-2" type="email" placeholder="anna@email.it" oninput="checkStep2()"/>
+        </div>
+        <div class="field-single">
+          <div class="field-label">Telefono <span class="required">*</span></div>
+          <input class="field-input" id="f-tel-2" type="tel" placeholder="+39 333 0000000" oninput="checkStep2()"/>
+        </div>
+      </div>
+
+      <!-- Partecipante 3 -->
+      <div id="partecipante-3" style="display:none;margin-top:16px;">
+        <div style="font-size:12px;font-weight:600;color:#0d6fa8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;padding:6px 10px;background:#e8f3fb;border-radius:6px;">Partecipante 3</div>
+        <div class="field-row">
+          <div><div class="field-label">Nome <span class="required">*</span></div><input class="field-input" id="f-nome-3" type="text" placeholder="Carlo" oninput="checkStep2()"/></div>
+          <div><div class="field-label">Cognome <span class="required">*</span></div><input class="field-input" id="f-cognome-3" type="text" placeholder="Bianchi" oninput="checkStep2()"/></div>
+        </div>
+        <div class="field-single">
+          <div class="field-label">Email <span class="required">*</span></div>
+          <input class="field-input" id="f-email-3" type="email" placeholder="carlo@email.it" oninput="checkStep2()"/>
+        </div>
+        <div class="field-single">
+          <div class="field-label">Telefono <span class="required">*</span></div>
+          <input class="field-input" id="f-tel-3" type="tel" placeholder="+39 333 0000000" oninput="checkStep2()"/>
+        </div>
+      </div>
+
+      <!-- Partecipante 4 -->
+      <div id="partecipante-4" style="display:none;margin-top:16px;">
+        <div style="font-size:12px;font-weight:600;color:#0d6fa8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;padding:6px 10px;background:#e8f3fb;border-radius:6px;">Partecipante 4</div>
+        <div class="field-row">
+          <div><div class="field-label">Nome <span class="required">*</span></div><input class="field-input" id="f-nome-4" type="text" placeholder="Laura" oninput="checkStep2()"/></div>
+          <div><div class="field-label">Cognome <span class="required">*</span></div><input class="field-input" id="f-cognome-4" type="text" placeholder="Neri" oninput="checkStep2()"/></div>
+        </div>
+        <div class="field-single">
+          <div class="field-label">Email <span class="required">*</span></div>
+          <input class="field-input" id="f-email-4" type="email" placeholder="laura@email.it" oninput="checkStep2()"/>
+        </div>
+        <div class="field-single">
+          <div class="field-label">Telefono <span class="required">*</span></div>
+          <input class="field-input" id="f-tel-4" type="tel" placeholder="+39 333 0000000" oninput="checkStep2()"/>
+        </div>
+      </div>
+
       <div class="field-single" style="margin-top:4px;">
         <button type="button" onclick="toggleAccompagnatori()" id="btn-accomp" style="width:100%;padding:10px 14px;border:1.5px dashed #0d6fa8;border-radius:8px;background:#f0f8ff;color:#0d6fa8;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;text-align:left;display:flex;align-items:center;gap:8px;">
           <span style="font-size:16px;">👥</span> Vieni con un accompagnatore?
@@ -577,6 +642,17 @@ var questions=[
   {text:"Per comprimere un principio attivo liquido oleoso, quale eccipiente è più adatto e quale strumento si usa preferibilmente?",options:["Lattosio spray-dried, nel mortaio","Gel di silice colloidale, nel micronizzatore a lame","Cellulosa microcristallina, nel granulatore a umido","Amido pregelatinizzato, nel mescolatore a V"],correct:1}
 ];
 
+function setNumIscritti(n){
+  window.numIscritti=n;
+  [1,2,3,4].forEach(function(i){
+    var btn=document.getElementById('ni-btn-'+i);
+    if(i===n){btn.style.background='#0d6fa8';btn.style.color='#fff';}
+    else{btn.style.background='#fff';btn.style.color='#0d6fa8';}
+    var p=document.getElementById('partecipante-'+i);
+    if(p&&i>1){p.style.display=i<=n?'block':'none';}
+  });
+  checkStep2();
+}
 function selAccomp(n){
   document.getElementById('f-accomp').value=n;
   [1,2,3,4].forEach(function(i){
@@ -586,7 +662,8 @@ function selAccomp(n){
   });
   var tot=document.getElementById('accomp-totale');
   tot.style.display='block';
-  tot.innerHTML='✅ Totale persone in aula: <strong>'+(n+1)+'</strong> (tu + '+n+' accompagnator'+(n===1?'e':'i')+')';
+  var iscritti=window.numIscritti||1;
+  tot.innerHTML='👨‍🎓 Partecipanti al corso: <strong>'+iscritti+'</strong><br>👥 Accompagnatori (non partecipano): <strong>'+n+'</strong><br>📋 Totale persone presenti: <strong>'+(iscritti+n)+'</strong>';
 }
 function toggleAccompagnatori(){
   var wrap=document.getElementById('accomp-wrap');
@@ -609,6 +686,14 @@ function checkStep2(){
   var tel=document.getElementById('f-tel').value.trim();
   var ruolo=document.getElementById('f-ruolo').value;
   var ok=nome&&cognome&&email&&email.includes('@')&&tel&&ruolo;
+  var n=window.numIscritti||1;
+  for(var i=2;i<=n;i++){
+    var ni=document.getElementById('f-nome-'+i);
+    var ci=document.getElementById('f-cognome-'+i);
+    var ei=document.getElementById('f-email-'+i);
+    var ti=document.getElementById('f-tel-'+i);
+    if(!ni||!ni.value.trim()||!ci||!ci.value.trim()||!ei||!ei.value.trim()||!ti||!ti.value.trim()){ok=false;}
+  }
   var btn=document.getElementById('btn-avanti-2');
   if(btn)btn.disabled=!ok;
 }
@@ -903,6 +988,17 @@ function submitForm(){
     }).join(' | ');
   }
 
+  var numP=window.numIscritti||1;
+  var partecipanti=[];
+  for(var pi=1;pi<=numP;pi++){
+    var sfx=pi===1?'':('-'+pi);
+    partecipanti.push({
+      nome: document.getElementById('f-nome'+sfx)?document.getElementById('f-nome'+sfx).value:'',
+      cognome: document.getElementById('f-cognome'+sfx)?document.getElementById('f-cognome'+sfx).value:'',
+      email: document.getElementById('f-email'+sfx)?document.getElementById('f-email'+sfx).value:'',
+      telefono: document.getElementById('f-tel'+sfx)?document.getElementById('f-tel'+sfx).value:''
+    });
+  }
   var payload={
     corso: document.getElementById('f-corso').value,
     nome: document.getElementById('f-nome').value,
@@ -921,6 +1017,8 @@ function submitForm(){
     sdi: document.getElementById('f-sdi')?document.getElementById('f-sdi').value||'':'',
     preferenze_alimentari: prefAlimentari,
     note_allergie: document.getElementById('f-allergie').value||'',
+    accompagnatori: (document.getElementById('accomp-wrap')&&document.getElementById('accomp-wrap').style.display!=='none'&&document.getElementById('f-accomp').value)?document.getElementById('f-accomp').value:'0',
+    partecipanti: partecipanti,
     quiz_risposte: quizRisposte
   };
 

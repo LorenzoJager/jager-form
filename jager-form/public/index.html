@@ -275,7 +275,7 @@ select.field-input{cursor:pointer;}
       <!-- Quanti si iscrivono -->
       <div style="margin-bottom:16px;background:#f0f8ff;border:1.5px solid #0d6fa8;border-radius:10px;padding:14px 16px;">
         <div style="font-size:13px;font-weight:600;color:#0a4f7a;margin-bottom:8px;">👥 Quanti si iscrivono al corso dalla stessa farmacia?</div>
-        <div style="display:flex;gap:10px;">
+        <div style="display:flex;gap:10px;justify-content:center;">
           <button type="button" onclick="setNumIscritti(1)" id="ni-btn-1" style="width:52px;height:52px;border-radius:10px;border:2px solid #0d6fa8;background:#0d6fa8;color:#fff;font-size:18px;font-weight:700;cursor:pointer;font-family:inherit;">1</button>
           <button type="button" onclick="setNumIscritti(2)" id="ni-btn-2" style="width:52px;height:52px;border-radius:10px;border:2px solid #0d6fa8;background:#fff;color:#0d6fa8;font-size:18px;font-weight:700;cursor:pointer;font-family:inherit;">2</button>
           <button type="button" onclick="setNumIscritti(3)" id="ni-btn-3" style="width:52px;height:52px;border-radius:10px;border:2px solid #0d6fa8;background:#fff;color:#0d6fa8;font-size:18px;font-weight:700;cursor:pointer;font-family:inherit;">3</button>
@@ -292,15 +292,16 @@ select.field-input{cursor:pointer;}
         </div>
         <div class="field-single">
           <div class="field-label">Email <span class="required">*</span></div>
-          <input class="field-input" id="f-email" type="email" placeholder="mario@email.it" oninput="checkStep2()"/>
-          <div class="field-hint"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0d6fa8" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg> Indirizzo usato per l'invio del materiale didattico post corso</div>
+          <input class="field-input" id="f-email" type="email" placeholder="mario@email.it" oninput="checkStep2();validateEmail(this)"/>
+          <div class="field-feedback" id="email-feedback"></div>
+          <div class="field-hint"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0d6fa8" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg> <strong>Indirizzo usato per l'invio del materiale didattico post corso</strong></div>
         </div>
         <div class="field-single">
           <div class="field-label">Telefono <span class="required">*</span></div>
           <input class="field-input" id="f-tel" type="tel" placeholder="+39 333 1234567" oninput="checkStep2()"/>
         <div class="field-hint">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.138.563 4.144 1.539 5.879L0 24l6.304-1.513A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.659-.5-5.195-1.375l-.371-.22-3.742.898.933-3.652-.242-.384A9.944 9.944 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-          Numero usato per aggiungerti al gruppo WhatsApp del corso
+          <strong>Numero usato per aggiungerti al gruppo WhatsApp del corso</strong>
         </div>
       </div>
       </div><!-- fine partecipante-1 -->
@@ -642,6 +643,15 @@ var questions=[
   {text:"Per comprimere un principio attivo liquido oleoso, quale eccipiente è più adatto e quale strumento si usa preferibilmente?",options:["Lattosio spray-dried, nel mortaio","Gel di silice colloidale, nel micronizzatore a lame","Cellulosa microcristallina, nel granulatore a umido","Amido pregelatinizzato, nel mescolatore a V"],correct:1}
 ];
 
+function validateEmail(el){
+  var v=el.value.trim();
+  var fb=document.getElementById('email-feedback');
+  if(!fb)return;
+  var re=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if(!v){fb.className='field-feedback';fb.textContent='';return;}
+  if(re.test(v)){el.className='field-input valid';fb.className='field-feedback show ok';fb.textContent='✓ Formato email valido';}
+  else{el.className='field-input invalid';fb.className='field-feedback show err';fb.textContent='✗ Formato non valido — es. nome@email.it';}
+}
 function setNumIscritti(n){
   window.numIscritti=n;
   [1,2,3,4].forEach(function(i){
@@ -954,6 +964,14 @@ function buildRecap(){
     html+='</div>';
   }
   section('Corso',[['Corso',document.getElementById('f-corso').value]]);
+  var np=window.numIscritti||1;
+  var na=document.getElementById('f-accomp')&&document.getElementById('accomp-wrap')&&document.getElementById('accomp-wrap').style.display!=='none'?document.getElementById('f-accomp').value:'0';
+  if(np>1||parseInt(na)>0){
+    var rows=[['Partecipanti al corso',np+' person'+(np===1?'a':'e')]];
+    if(parseInt(na)>0)rows.push(['Accompagnatori (non partecipano)',na+' person'+(parseInt(na)===1?'a':'e')]);
+    if(parseInt(na)>0)rows.push(['Totale presenti',(np+parseInt(na))+' persone']);
+    section('Presenze',rows);
+  }
   section('Dati personali',[
     ['Nome e cognome',(document.getElementById('f-nome').value+' '+document.getElementById('f-cognome').value).trim()],
     ['Email',document.getElementById('f-email').value],

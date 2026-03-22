@@ -153,10 +153,50 @@ select.field-input{cursor:pointer;}
 .success-icon{width:56px;height:56px;border-radius:50%;background:#e1f5ee;border:2px solid #0f6e56;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
 .success-title{font-size:18px;font-weight:500;margin-bottom:8px;}
 .success-sub{font-size:13px;color:#666;line-height:1.6;}
-@media(max-width:480px){
-  .field-row,.billing-toggle,.role-grid{grid-template-columns:1fr;}
-  .nav-links{display:none;}
-  .form-card{padding:16px;}
+@media(max-width:600px){
+  /* NAVBAR */
+  nav { padding:10px 16px !important; }
+  nav svg[width="52"] { width:36px !important; height:36px !important; }
+  nav > a > div:last-child, nav > a > div[style*="font-size:20px"] { display:none !important; }
+  nav > div[style*="text-align:right"] { display:none !important; }
+
+  /* HERO */
+  div[style*="padding:36px 32px 52px"] { padding:24px 16px 36px !important; }
+  div[style*="padding:36px 32px 52px"] h1 { font-size:18px !important; }
+  div[style*="padding:36px 32px 52px"] .contact-row { flex-direction:column; gap:6px !important; }
+
+  /* PROGRESS BAR */
+  .form-progress { padding:8px 10px; overflow-x:auto; }
+  .step-label { display:none; }
+  .step-dot { width:18px; height:18px; font-size:9px; }
+
+  /* FORM CARD */
+  .form-card { padding:16px; margin:0 8px; }
+  .content-area { padding:0 0 40px; margin-top:6px; }
+
+  /* GRIDS */
+  .field-row, .billing-toggle, .role-grid { grid-template-columns:1fr; }
+
+  /* COURSE BUTTONS */
+  .course-btn { padding:12px 14px; }
+  .course-icon { width:36px; height:36px; }
+  .course-name { font-size:13px; }
+  .course-dates { font-size:11px; }
+
+  /* BOTTONI ISCRITTI E ACCOMPAGNATORI */
+  div[style*="setNumIscritti"] button,
+  div[style*="selAccomp"] button { width:44px !important; height:44px !important; font-size:16px !important; }
+
+  /* RECAP */
+  .recap-row { flex-direction:column; gap:3px; }
+  .recap-val { text-align:left; }
+
+  /* PRIVACY ROW */
+  .privacy-row { padding:10px 12px !important; }
+
+  /* SUCCESS BOX */
+  div[style*="padding:32px 28px"] { padding:20px 16px !important; }
+  .s-val { font-size:12px; max-width:160px !important; }
 }
 </style>
 </head>

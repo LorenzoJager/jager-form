@@ -841,7 +841,7 @@ function cercaSDI(){
     +'<div style="font-size:13px;color:#666;line-height:1.6;margin-bottom:16px;">Clicca il link qui sotto — si aprirà il sito ufficiale dove puoi cercare il codice SDI dalla tua Partita IVA. Poi torna qui e inseriscilo nel campo.</div>'
     +(piva?'<div style="background:#e8f3fb;border-radius:8px;padding:10px 12px;font-size:12px;color:#0a4f7a;margin-bottom:14px;">P.IVA rilevata: <strong>'+piva+'</strong> — cercala sul sito per trovare lo SDI.</div>':'')
     +'<a href="'+url+'" target="_blank" style="display:block;text-align:center;background:#0d6fa8;color:#fff;padding:12px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500;margin-bottom:12px;">Vai a ufficiocamerale.it →</a>'
-    +'<button onclick="document.body.removeChild(document.getElementById('sdi-popup'))" style="width:100%;padding:10px;background:none;border:1px solid #ddd;border-radius:8px;color:#666;font-size:13px;cursor:pointer;font-family:inherit;">← Torna al modulo</button>'
+    +'<button onclick="document.getElementById(\'sdi-popup\').remove()" style="width:100%;padding:10px;background:none;border:1px solid #ddd;border-radius:8px;color:#666;font-size:13px;cursor:pointer;font-family:inherit;">← Torna al modulo</button>'
     +'</div>';
   document.body.appendChild(popup);
 }

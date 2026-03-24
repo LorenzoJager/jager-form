@@ -1069,11 +1069,11 @@ function toggleQuiz(){
 }
 
 var quizCompresse=[
-  {text:"Cosa si intende per preparazione galenica magistrale?",options:["Un farmaco prodotto industrialmente in serie","Una preparazione eseguita in farmacia su prescrizione medica individuale","Un integratore alimentare a base di erbe officinali"],correct:1},
-  {text:"Quale strumento viene utilizzato per pesare i principi attivi in laboratorio galenico?",options:["Misurino volumetrico graduato","Densimetro ad immersione","Bilancia analitica di precisione"],correct:2},
-  {text:"Cosa indica la sigla FU nel contesto della farmacia italiana?",options:["Farmaco ad Uso urgente","Farmacopea Ufficiale della Repubblica Italiana","Formulazione Unificata per preparati officinali"],correct:1},
-  {text:"In cosmetologia, un'emulsione O/A indica:",options:["Acqua dispersa in fase oleosa continua","Olio disperso in fase acquosa continua","Una miscela anidra di oli vegetali e cere"],correct:1},
-  {text:"Quale delle seguenti è una forma farmaceutica semisolida tipicamente preparata in farmacia?",options:["Fiala per uso parenterale","Compressa a rilascio modificato","Unguento o crema galenica"],correct:2}
+  {text:"Qual è la definizione corretta di compressa come forma farmaceutica?",options:["Una soluzione liquida a dose unica ottenuta per filtrazione","Una forma farmaceutica solida contenente una dose di uno o più principi attivi, ottenuta per compressione di volumi uniformi di particelle","Un granulato rivestito con film protettivo gastrico","Una capsula rigida riempita con polvere micronizzata"],correct:1,level:"Facile",explanation:"Le compresse sono forme farmaceutiche solide contenenti ciascuna una dose di uno o più principi attivi, ottenute per compressione di volumi uniformi di particelle."},
+  {text:"Chi brevettò il primo metodo moderno di compressione in matrici e in che anno?",options:["Louis Pasteur, 1865","Carl Wilhelm Scheele, 1780","William Brockedon, 1843","Friedrich Sertürner, 1804"],correct:2,level:"Facile",explanation:"William Brockedon brevettò nel 1843 il metodo di preparazione di pillole medicinali per compressione in matrici (British Patent 9977). Il primo farmaco compresso fu il bicarbonato di potassio."},
+  {text:"In tecnologia delle compresse, cosa si intende con il termine 'picking'?",options:["La frattura della compressa lungo linee orizzontali durante l'espulsione","La variazione eccessiva di peso tra una compressa e l'altra","L'adesione delle polveri al punzone","Il rigonfiamento della compressa a contatto con l'umidità"],correct:2,level:"Facile",explanation:"Il picking indica l'adesione delle polveri al punzone durante la comprimitura. Fenomeno distinto dallo sticking, che riguarda invece l'adesione alle pareti della matrice."},
+  {text:"Tra i seguenti diluenti comunemente usati nelle compresse, quale è l'unico NON solubile in acqua?",options:["Saccarosio","Lattosio","Sorbitolo","Derivati della cellulosa"],correct:3,level:"Intermedia",explanation:"Saccarosio, lattosio, sorbitolo, amidi e mannitolo sono tutti solubili in acqua. I derivati della cellulosa sono l'eccezione: sono insolubili, con implicazioni dirette sui meccanismi di disgregazione."},
+  {text:"In una comprimitrice eccentrica le regolazioni di peso e compressione si effettuano a macchina ferma o in movimento? E in una rotativa?",options:["In entrambe le macchine a macchina ferma","In entrambe le macchine a macchina in movimento","A macchina ferma nell'eccentrica, a macchina in movimento nella rotativa","A macchina in movimento nell'eccentrica, a macchina ferma nella rotativa"],correct:2,level:"Esperto",explanation:"Nell'eccentrica le regolazioni si eseguono a macchina ferma; nella rotativa a macchina in movimento. Ignorarla può compromettere la sicurezza dell'operatore e produrre compresse con peso non uniforme."}
 ];
 var quizCannabis=[];
 function getActiveQuiz(){
@@ -1083,14 +1083,24 @@ function getActiveQuiz(){
 }
 function renderQuiz(){
   var c=document.getElementById('qcont');c.innerHTML='';
-  var activeQ=getActiveQuiz();if(activeQ.length===0){var c=document.getElementById('qcont');c.innerHTML='<div style="text-align:center;padding:20px;color:#666;font-size:13px;">Le domande per questo corso saranno disponibili a breve.</div>';return;}activeQ.forEach(function(q,qi){
+  var activeQ=getActiveQuiz();
+  if(activeQ.length===0){c.innerHTML='<div style="text-align:center;padding:20px;color:#666;font-size:13px;">Le domande per questo corso saranno disponibili a breve.</div>';return;}
+  var levelColors={'Facile':'#0f6e56','Intermedia':'#e67e22','Esperto':'#c0392b'};
+  var levelBg={'Facile':'#e1f5ee','Intermedia':'#fff8e1','Esperto':'#faece7'};
+  activeQ.forEach(function(q,qi){
     var b=document.createElement('div');b.className='question-block';
-    b.innerHTML='<div class="question-text"><span class="q-number">'+(qi+1)+'</span>'+q.text+'</div>';
+    var levelBadge=q.level?'<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;margin-left:8px;background:'+(levelBg[q.level]||'#eee')+';color:'+(levelColors[q.level]||'#666')+';">'+q.level+'</span>':'';
+    b.innerHTML='<div class="question-text"><span class="q-number">'+(qi+1)+'</span>'+q.text+levelBadge+'</div>';
     q.options.forEach(function(opt,oi){
       var o=document.createElement('div');o.className='answer-option';o.id='opt-'+qi+'-'+oi;
-      o.innerHTML='<div class="answer-radio" id="radio-'+qi+'-'+oi+'"></div><div class="answer-text">'+opt+'</div>';
+      var letter=String.fromCharCode(65+oi);
+      o.innerHTML='<div class="answer-radio" id="radio-'+qi+'-'+oi+'"></div><div class="answer-text"><strong>'+letter+')</strong> '+opt+'</div>';
       o.onclick=function(){selectA(qi,oi);};b.appendChild(o);
     });
+    var expl=document.createElement('div');
+    expl.id='expl-'+qi;
+    expl.style.cssText='display:none;margin-top:8px;padding:10px 12px;border-radius:8px;font-size:12px;line-height:1.6;';
+    b.appendChild(expl);
     c.appendChild(b);
   });
 }
@@ -1108,18 +1118,31 @@ function selectA(qi,oi){
 }
 function submitQuiz(){
   if(qSubmitted)return;qSubmitted=true;var correct=0;
-  var activeQ=getActiveQuiz();if(activeQ.length===0){var c=document.getElementById('qcont');c.innerHTML='<div style="text-align:center;padding:20px;color:#666;font-size:13px;">Le domande per questo corso saranno disponibili a breve.</div>';return;}activeQ.forEach(function(q,qi){
+  var activeQ=getActiveQuiz();
+  if(activeQ.length===0){document.getElementById('qcont').innerHTML='<div style="text-align:center;padding:20px;color:#666;font-size:13px;">Le domande per questo corso saranno disponibili a breve.</div>';return;}
+  activeQ.forEach(function(q,qi){
     var ua=qAnswers[qi];
     q.options.forEach(function(_,oi){
       var opt=document.getElementById('opt-'+qi+'-'+oi),radio=document.getElementById('radio-'+qi+'-'+oi);
       if(oi===q.correct){opt.className='answer-option correct';radio.className='answer-radio correct-dot';if(ua===oi)correct++;}
       else if(oi===ua&&ua!==q.correct){opt.className='answer-option wrong';radio.className='answer-radio wrong-dot';}
     });
+    if(q.explanation){
+      var expl=document.getElementById('expl-'+qi);
+      if(expl){
+        var isCorrect=ua===q.correct;
+        expl.style.display='block';
+        expl.style.background=isCorrect?'#e1f5ee':'#faece7';
+        expl.style.border='1px solid '+(isCorrect?'#0f6e56':'#993c1d');
+        expl.style.color=isCorrect?'#0a4a38':'#7a2a1a';
+        expl.innerHTML=(isCorrect?'✓ <strong>Corretto!</strong> ':'✗ <strong>Risposta errata.</strong> ')+q.explanation;
+      }
+    }
   });
   document.getElementById('qscore').style.display='block';
-  document.getElementById('qsn').textContent=correct+'/5';
+  document.getElementById('qsn').textContent=correct+'/'+activeQ.length;
   var msgs=["Ottimo punto di partenza — il corso ti darà una base solida.","Buona base — approfondiremo tutti questi temi.","Buona preparazione — il corso amplierà le tue competenze.","Ottima preparazione di base!","Eccellente — sarà un corso molto stimolante per te."];
-  document.getElementById('qsm').textContent=msgs[correct];
+  document.getElementById('qsm').textContent=msgs[Math.min(correct,msgs.length-1)];
   document.getElementById('qsbtn').textContent='Grazie per aver risposto!';
   document.getElementById('qsbtn').disabled=true;
 }

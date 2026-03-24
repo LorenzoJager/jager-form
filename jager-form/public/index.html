@@ -832,18 +832,15 @@ function selAccomp(n){
 }
 function cercaSDI(){
   var piva=document.getElementById('f-piva')?document.getElementById('f-piva').value:'';
-  var url='https://www.ufficiocamerale.it/codice-fatturazione'+(piva?'?piva='+piva:'');
   var popup=document.createElement('div');
   popup.id='sdi-popup';
   popup.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
-  popup.innerHTML='<div style="background:#fff;border-radius:16px;padding:24px;max-width:440px;width:100%;position:relative;">'
-    +'<div style="font-size:15px;font-weight:600;color:#1a2e4a;margin-bottom:8px;">Trova il codice SDI</div>'
-    +'<div style="font-size:13px;color:#666;line-height:1.6;margin-bottom:16px;">Clicca il link qui sotto — si aprirà il sito ufficiale dove puoi cercare il codice SDI dalla tua Partita IVA. Poi torna qui e inseriscilo nel campo.</div>'
-    +(piva?'<div style="background:#e8f3fb;border-radius:8px;padding:10px 12px;font-size:13px;color:#0a4f7a;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;"><span>P.IVA: <strong>'+piva+'</strong></span><button onclick="navigator.clipboard.writeText(\''+piva+'\');this.textContent=\'Copiata ✓\';" style="background:#0d6fa8;color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap;">Copia</button></div>':'')
-    +'<a href="'+url+'" target="_blank" style="display:block;text-align:center;background:#0d6fa8;color:#fff;padding:12px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500;margin-bottom:12px;">Vai a ufficiocamerale.it →</a>'
-    +'<button onclick="document.getElementById(\'sdi-popup\').remove()" style="width:100%;padding:10px;background:none;border:1px solid #ddd;border-radius:8px;color:#666;font-size:13px;cursor:pointer;font-family:inherit;">← Torna al modulo</button>'
-    +'</div>';
+  var pivaBox=piva?'<div id="piva-box" style="background:#e8f3fb;border-radius:8px;padding:10px 12px;font-size:13px;color:#0a4f7a;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;"><span>P.IVA: <strong>'+piva+'</strong></span><button id="copia-piva-btn" style="background:#0d6fa8;color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:inherit;">Copia</button></div>':'';
+  popup.innerHTML='<div style="background:#fff;border-radius:16px;padding:24px;max-width:440px;width:100%;position:relative;"><div style="font-size:15px;font-weight:600;color:#1a2e4a;margin-bottom:8px;">Trova il codice SDI</div><div style="font-size:13px;color:#666;line-height:1.6;margin-bottom:16px;">Cerca il codice SDI dalla tua P.IVA sul sito ufficiale, poi torna qui e inseriscilo.</div>'+pivaBox+'<a href="https://www.ufficiocamerale.it/codice-fatturazione" target="_blank" style="display:block;text-align:center;background:#0d6fa8;color:#fff;padding:12px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500;margin-bottom:12px;">Vai a ufficiocamerale.it</a><button id="chiudi-sdi-btn" style="width:100%;padding:10px;background:none;border:1px solid #ddd;border-radius:8px;color:#666;font-size:13px;cursor:pointer;font-family:inherit;">Torna al modulo</button></div>';
   document.body.appendChild(popup);
+  document.getElementById('chiudi-sdi-btn').addEventListener('click',function(){popup.remove();});
+  var cb=document.getElementById('copia-piva-btn');
+  if(cb){cb.addEventListener('click',function(){navigator.clipboard.writeText(piva);cb.textContent='Copiata';cb.style.background='#0f6e56';});}
 }
 function toggleAccompagnatori(){
   var wrap=document.getElementById('accomp-wrap');

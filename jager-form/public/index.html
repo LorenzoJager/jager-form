@@ -590,7 +590,15 @@ select.field-input{cursor:pointer;}
         <button class="manual-btn" id="manual-btn" style="display:none" onclick="enableManual()">Inserisci manualmente i dati aziendali →</button>
       </div>
       <div class="cascade-field" id="f1"><div class="field-label">Ragione Sociale <span class="required">*</span></div><input class="field-input" id="f-ragsoc" type="text" placeholder="Farmacia Bianchi S.r.l."/></div>
-      <div class="cascade-field tall" id="f2"><div class="field-label">Codice SDI <span class="required">*</span><span class="tag">e-fattura</span></div><input class="field-input" id="f-sdi" type="text" placeholder="es. ABC1234"/></div>
+      <div class="cascade-field tall" id="f2">
+  <div class="field-label">Codice SDI <span class="required">*</span><span class="tag">e-fattura</span></div>
+  <input class="field-input" id="f-sdi" type="text" placeholder="es. ABC1234"/>
+  <div style="margin-top:6px;display:flex;align-items:center;gap:6px;">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0d6fa8" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <span style="font-size:11px;color:#666;">Non conosci il codice SDI?</span>
+    <button type="button" onclick="cercaSDI()" style="background:none;border:none;color:#0d6fa8;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:underline;padding:0;">Cercalo dalla P.IVA →</button>
+  </div>
+</div>
       <div class="cascade-field" id="f3"><div class="field-label">Indirizzo sede legale <span class="required">*</span></div><input class="field-input" id="f-via2" type="text" placeholder="Via Garibaldi, 5"/></div>
       <div class="cascade-field" id="f4">
         <div style="display:grid;grid-template-columns:88px 1fr 60px;gap:10px;">
@@ -820,6 +828,21 @@ function selAccomp(n){
   tot.style.display='block';
   var iscritti=window.numIscritti||1;
   tot.innerHTML='👨‍🎓 Partecipanti al corso: <strong>'+iscritti+'</strong><br>👥 Accompagnatori (non partecipano): <strong>'+n+'</strong><br>📋 Totale persone presenti: <strong>'+(iscritti+n)+'</strong>';
+}
+function cercaSDI(){
+  var piva=document.getElementById('f-piva')?document.getElementById('f-piva').value:'';
+  var url='https://www.ufficiocamerale.it/codice-fatturazione'+(piva?'?piva='+piva:'');
+  var popup=document.createElement('div');
+  popup.id='sdi-popup';
+  popup.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  popup.innerHTML='<div style="background:#fff;border-radius:16px;padding:24px;max-width:440px;width:100%;position:relative;">'
+    +'<div style="font-size:15px;font-weight:600;color:#1a2e4a;margin-bottom:8px;">Trova il codice SDI</div>'
+    +'<div style="font-size:13px;color:#666;line-height:1.6;margin-bottom:16px;">Clicca il link qui sotto — si aprirà il sito ufficiale dove puoi cercare il codice SDI dalla tua Partita IVA. Poi torna qui e inseriscilo nel campo.</div>'
+    +(piva?'<div style="background:#e8f3fb;border-radius:8px;padding:10px 12px;font-size:12px;color:#0a4f7a;margin-bottom:14px;">P.IVA rilevata: <strong>'+piva+'</strong> — cercala sul sito per trovare lo SDI.</div>':'')
+    +'<a href="'+url+'" target="_blank" style="display:block;text-align:center;background:#0d6fa8;color:#fff;padding:12px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500;margin-bottom:12px;">Vai a ufficiocamerale.it →</a>'
+    +'<button onclick="document.body.removeChild(document.getElementById('sdi-popup'))" style="width:100%;padding:10px;background:none;border:1px solid #ddd;border-radius:8px;color:#666;font-size:13px;cursor:pointer;font-family:inherit;">← Torna al modulo</button>'
+    +'</div>';
+  document.body.appendChild(popup);
 }
 function toggleAccompagnatori(){
   var wrap=document.getElementById('accomp-wrap');

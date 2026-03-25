@@ -185,7 +185,7 @@ def send_confirmation_email(data):
     # CC a Lorenzo e Anna
     cc = [
         {"email": "iscrizioni@jagergalenica.it", "name": "Jager Galenica"},
-        {"email": "annajagermeco@gmail.com", "name": "Anna Jager"}
+        {"email":  "name": "Anna Jager"}
     ]
 
     payload = {

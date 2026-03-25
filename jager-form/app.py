@@ -122,6 +122,10 @@ def submit():
             )
             if not r.ok:
                 return jsonify({"success": False, "error": r.text}), 500
+        try:
+            send_confirmation_email(data)
+        except Exception as mail_err:
+            print(f"Errore email: {mail_err}")
         return jsonify({"success": True})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500

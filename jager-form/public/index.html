@@ -894,6 +894,7 @@ function goTo(s){
     d.className='step-dot'+(i<s?' done':i===s?' active':'');
     if(i<6){var l=document.getElementById('line-'+i);if(l)l.className='step-line'+(i<s?' done':'');}
   }
+  if(s===5)renderQuiz();
   if(s===6)buildRecap();
   window.scrollTo({top:0,behavior:'smooth'});
 }

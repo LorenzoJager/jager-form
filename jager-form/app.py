@@ -199,7 +199,7 @@ def send_confirmation_email(data):
     resp = requests.post(
         "https://api.brevo.com/v3/smtp/email",
         headers={
-            "api-key": BREVO_API_KEY,
+            "api-key": os.environ.get("BREVO_API_KEY", ""),
             "Content-Type": "application/json"
         },
         json=payload,

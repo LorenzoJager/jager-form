@@ -123,6 +123,7 @@ def submit():
             if not r.ok:
                 return jsonify({"success": False, "error": r.text}), 500
         try:
+            data["partecipanti_list"] = partecipanti
             send_confirmation_email(data)
         except Exception as mail_err:
             print(f"Errore email: {mail_err}")
@@ -146,6 +147,21 @@ def send_confirmation_email(data):
     if note_allergie:
         allergie_parts.append(note_allergie)
     allergie_str = ", ".join(allergie_parts) if allergie_parts else "Nessuna"
+
+    partecipanti_list = data.get("partecipanti_list", [])
+    if not partecipanti_list:
+        partecipanti_list = [{"nome": data.get("nome",""), "cognome": data.get("cognome",""), "email": data.get("email",""), "telefono": data.get("telefono","")}]
+    parti_rows = ""
+    for i, p in enumerate(partecipanti_list):
+        p_nome = f"{p.get('nome','')} {p.get('cognome','')}".strip()
+        p_email = p.get("email","")
+        p_tel = p.get("telefono","")
+        label = f"Partecipante {i+1}" if len(partecipanti_list) > 1 else "Partecipante"
+        sep = "border-top:1px solid #e8e8e8;" if i > 0 else ""
+        parti_rows += f'''<tr style="{sep}"><td style="padding:6px 0 2px;color:#666;width:40%;font-weight:600;">{label}</td><td style="padding:6px 0 2px;font-weight:500;">{p_nome}</td></tr>
+        <tr><td style="padding:2px 0;color:#666;">Email</td><td style="padding:2px 0;color:#6399e7;">{p_email}</td></tr>
+        <tr><td style="padding:2px 0 6px;color:#666;">Telefono</td><td style="padding:2px 0 6px;font-weight:500;">{p_tel}</td></tr>'''
+    partecipanti_html = f'<table style="width:100%;font-size:13px;border-collapse:collapse;margin-top:10px;border-top:1px solid #e0e0e0;padding-top:10px;">{parti_rows}</table>'
 
     try:
         num_partecipanti = int(data.get("num_partecipanti", 1))
@@ -191,12 +207,10 @@ def send_confirmation_email(data):
     <div style="background:#f5f7fa;border-radius:8px;padding:14px 18px;margin-bottom:12px;">
       <div style="font-size:11px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Dati personali</div>
       <table style="width:100%;font-size:13px;border-collapse:collapse;">
-        <tr><td style="padding:3px 0;color:#666;width:40%;">Nome</td><td style="padding:3px 0;font-weight:500;">{nome}</td></tr>
-        <tr><td style="padding:3px 0;color:#666;">Email</td><td style="padding:3px 0;color:#6399e7;">{email_partecipante}</td></tr>
-        <tr><td style="padding:3px 0;color:#666;">Telefono</td><td style="padding:3px 0;font-weight:500;">{telefono}</td></tr>
-        <tr><td style="padding:3px 0;color:#666;">Ruolo</td><td style="padding:3px 0;font-weight:500;">{ruolo}</td></tr>
+        <tr><td style="padding:3px 0;color:#666;width:40%;">Ruolo</td><td style="padding:3px 0;font-weight:500;">{ruolo}</td></tr>
         <tr><td style="padding:3px 0;color:#666;">Allergie / dieta</td><td style="padding:3px 0;font-weight:500;">{allergie_str}</td></tr>
       </table>
+      {partecipanti_html}
     </div>
 
     <div style="background:#f5f7fa;border-radius:8px;padding:14px 18px;margin-bottom:12px;">

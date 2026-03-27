@@ -834,6 +834,20 @@ function selAccomp(n){
   tot.style.display='block';
   var iscritti=window.numIscritti||1;
   tot.innerHTML='👨‍🎓 Partecipanti al corso: <strong>'+iscritti+'</strong><br>👥 Accompagnatori (non partecipano): <strong>'+n+'</strong><br>📋 Totale persone presenti: <strong>'+(iscritti+n)+'</strong>';
+  var nomiWrap=document.getElementById('accomp-nomi-wrap');
+  if(!nomiWrap){
+    nomiWrap=document.createElement('div');
+    nomiWrap.id='accomp-nomi-wrap';
+    nomiWrap.style.cssText='margin-top:12px;';
+    tot.parentNode.insertBefore(nomiWrap,tot.nextSibling);
+  }
+  var html='';
+  for(var i=1;i<=n;i++){
+    var existing=document.getElementById('f-accomp-nome-'+i);
+    var val=existing?existing.value:'';
+    html+='<div style="margin-top:8px;"><label style="font-size:12px;color:#0a4f7a;font-weight:600;">Nome accompagnatore '+i+'</label><input type="text" id="f-accomp-nome-'+i+'" value="'+val+'" placeholder="Nome e Cognome" style="width:100%;margin-top:4px;padding:9px 12px;border:1.5px solid #a8d4ee;border-radius:8px;font-size:13px;font-family:inherit;box-sizing:border-box;"></div>';
+  }
+  nomiWrap.innerHTML=html;
 }
 function cercaSDI(){
   var piva=document.getElementById('f-piva')?document.getElementById('f-piva').value:'';
@@ -859,6 +873,7 @@ function toggleAccompagnatori(){
     btn.style.background='#f0f8ff';
     btn.innerHTML='<span style="font-size:16px;">👥</span> Vieni con un accompagnatore?';
     document.getElementById('f-accomp').value='';
+    var nw=document.getElementById('accomp-nomi-wrap');if(nw)nw.remove();
   }
 }
 function checkStep2(){
@@ -1238,6 +1253,7 @@ function submitForm(){
     preferenze_alimentari: prefAlimentari,
     note_allergie: document.getElementById('f-allergie').value||'',
     accompagnatori: (document.getElementById('accomp-wrap')&&document.getElementById('accomp-wrap').style.display!=='none'&&document.getElementById('f-accomp').value)?document.getElementById('f-accomp').value:'0',
+    accompagnatori_nomi: (function(){var na=parseInt((document.getElementById('accomp-wrap')&&document.getElementById('accomp-wrap').style.display!=='none'&&document.getElementById('f-accomp').value)?document.getElementById('f-accomp').value:'0')||0;var nomi=[];for(var i=1;i<=na;i++){var el=document.getElementById('f-accomp-nome-'+i);if(el&&el.value.trim())nomi.push(el.value.trim());}return nomi;})(),
     partecipanti: partecipanti,
     quiz_risposte: quizRisposte
   };
@@ -1273,6 +1289,7 @@ function submitForm(){
       var np=window.numIscritti||1;
       var na=parseInt(payload.accompagnatori)||0;
       var presenzeText=np+' partecipant'+(np===1?'e':'i')+' al corso'+(na>0?' + '+na+' accompagnator'+(na===1?'e':'i'):'');
+      if(na>0&&payload.accompagnatori_nomi&&payload.accompagnatori_nomi.length>0){presenzeText+=' ('+payload.accompagnatori_nomi.join(', ')+')';}
       var svPres=document.getElementById('sv-presenze');if(svPres)svPres.textContent=presenzeText;
       var allergie=payload.preferenze_alimentari||'';
       var svAll=document.getElementById('sv-allergie');

@@ -171,21 +171,27 @@ def send_confirmation_email(data):
         num_accompagnatori = int(data.get("accompagnatori", 0))
     except:
         num_accompagnatori = 0
+    accompagnatori_nomi = data.get("accompagnatori_nomi", [])
+    if accompagnatori_nomi:
+        accomp_str = ", ".join(accompagnatori_nomi)
+    else:
+        accomp_str = "—"
 
+    accomp_nomi_str = (" — " + accomp_str) if accompagnatori_nomi else ""
     if tipo_fatt == "farmacia":
         fatt_rows = f"""
             <tr><td style="padding:3px 0;color:#666;width:40%;">Farmacia/Azienda</td><td style="padding:3px 0;font-weight:500;">{data.get('ragione_sociale','')}</td></tr>
             <tr><td style="padding:3px 0;color:#666;">P.IVA</td><td style="padding:3px 0;font-weight:500;">{data.get('piva','')}</td></tr>
             <tr><td style="padding:3px 0;color:#666;">SDI</td><td style="padding:3px 0;font-weight:500;">{data.get('sdi','')}</td></tr>
             <tr><td style="padding:3px 0;color:#666;">Partecipanti</td><td style="padding:3px 0;font-weight:500;">{num_partecipanti}</td></tr>
-            <tr><td style="padding:3px 0;color:#666;">Accompagnatori</td><td style="padding:3px 0;font-weight:500;">{num_accompagnatori}</td></tr>"""
+            <tr><td style="padding:3px 0;color:#666;">Accompagnatori</td><td style="padding:3px 0;font-weight:500;">{num_accompagnatori}{accomp_nomi_str}</td></tr>"""
     else:
         fatt_rows = f"""
             <tr><td style="padding:3px 0;color:#666;width:40%;">Tipo</td><td style="padding:3px 0;font-weight:500;">Privato</td></tr>
             <tr><td style="padding:3px 0;color:#666;">Codice Fiscale</td><td style="padding:3px 0;font-weight:500;">{data.get('cf','')}</td></tr>
             <tr><td style="padding:3px 0;color:#666;">Indirizzo</td><td style="padding:3px 0;font-weight:500;">{data.get('indirizzo','')} {data.get('cap','')} {data.get('citta','')} {data.get('provincia','')}</td></tr>
             <tr><td style="padding:3px 0;color:#666;">Partecipanti</td><td style="padding:3px 0;font-weight:500;">{num_partecipanti}</td></tr>
-            <tr><td style="padding:3px 0;color:#666;">Accompagnatori</td><td style="padding:3px 0;font-weight:500;">{num_accompagnatori}</td></tr>"""
+            <tr><td style="padding:3px 0;color:#666;">Accompagnatori</td><td style="padding:3px 0;font-weight:500;">{num_accompagnatori}{accomp_nomi_str}</td></tr>"""
 
     html = f"""<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1a1a1a;">
 

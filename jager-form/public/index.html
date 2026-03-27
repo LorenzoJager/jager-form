@@ -1259,7 +1259,14 @@ function submitForm(){
       document.querySelector('#sec-6 .form-nav').style.display='none';
       // Popola dati nel success box
       var svCorso=document.getElementById('sv-corso');if(svCorso)svCorso.textContent=payload.corso||'—';
-      var svNome=document.getElementById('sv-nome');if(svNome)svNome.textContent=(payload.nome||'')+' '+(payload.cognome||'');
+      var svNome=document.getElementById('sv-nome');
+      if(svNome){
+        if(payload.partecipanti && payload.partecipanti.length>1){
+          svNome.textContent=payload.partecipanti.map(function(p){return (p.nome+' '+p.cognome).trim();}).join(', ');
+        } else {
+          svNome.textContent=(payload.nome||'')+' '+(payload.cognome||'');
+        }
+      }
       var svEmail=document.getElementById('sv-email');if(svEmail)svEmail.textContent=payload.email||'—';
       var svFatt=document.getElementById('sv-fatt');if(svFatt)svFatt.textContent=payload.tipo_fatturazione==='farmacia'?(payload.ragione_sociale||payload.piva||'Azienda'):'Privato — CF ricevuto';
       var svTel=document.getElementById('sv-tel');if(svTel)svTel.textContent=payload.telefono||'—';

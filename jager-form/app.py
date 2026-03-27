@@ -280,7 +280,11 @@ def send_confirmation_email(data):
 </div>"""
 
     destinatari = [{"email": email_partecipante, "name": nome}]
-    cc = [{"email": "iscrizioni@jagergalenica.it", "name": "Jager Galenica"}]
+    cc = [
+        {"email": "iscrizioni@jagergalenica.it", "name": "Jager Galenica"},
+        {"email": "annajagermeco@gmail.com", "name": "Anna Jager"},
+        {"email": "mterno@gmail.com", "name": "Marco Ternelli"}
+    ]
 
     payload = {
         "sender": {"name": "Scuola Galenica del Dr. Peter Jager", "email": "iscrizioni@jagergalenica.it"},

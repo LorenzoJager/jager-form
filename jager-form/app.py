@@ -283,7 +283,7 @@ def send_confirmation_email(data):
     bcc = [
         {"email": "iscrizioni@jagergalenica.it", "name": "Jager Galenica"},
         {"email": "annajagermeco@gmail.com", "name": "Anna Jager"},
-        {"email": "mterno@gmail.com", "name": "Marco Ternelli"}
+        {"email": "mternelli@gmail.com", "name": "Marco Ternelli"}
     ]
 
     payload = {

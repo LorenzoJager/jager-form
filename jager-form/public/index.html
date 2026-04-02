@@ -576,9 +576,7 @@ select.field-input{cursor:pointer;}
       <div style="font-size:11px;color:#a06000;margin-top:6px;">Il codice SDI a 7 caratteri è obbligatorio per ricevere la fattura elettronica. Lo trovi nelle impostazioni del tuo software di fatturazione.</div>
       <div style="margin-top:8px;display:flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0d6fa8" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span style="font-size:11px;color:#666;">Non conosci il codice SDI?</span><button type="button" onclick="cercaSDI()" style="background:#e8f3fb;border:1.5px solid #0d6fa8;border-radius:6px;color:#0d6fa8;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;padding:5px 12px;">🔍 Cercalo dalla P.IVA →</button></div>
       <!-- campi nascosti per compatibilita dati -->
-      <input type="hidden" id="f-cap2" value=""/>
-      <input type="hidden" id="f-citta2" value=""/>
-      <input type="hidden" id="f-prov2" value=""/>
+
     </div>
   </div>
   <!-- stato rosso: errore -->
@@ -590,11 +588,14 @@ select.field-input{cursor:pointer;}
   </div>
 </div>
         <button class="manual-btn" id="manual-btn" style="display:none" onclick="enableManual()">Inserisci manualmente i dati aziendali →</button>
+        <div style="margin-top:10px;text-align:center;">
+          <button type="button" onclick="enableManual()" style="background:none;border:none;font-size:12px;color:#888;cursor:pointer;font-family:inherit;text-decoration:underline;padding:4px 8px;">Inserimento manuale dati aziendali</button>
+        </div>
       </div>
-      <div class="cascade-field" id="f1"><div class="field-label">Ragione Sociale <span class="required">*</span></div><input class="field-input" id="f-ragsoc" type="text" placeholder="Farmacia Bianchi S.r.l."/></div>
+      <div class="cascade-field" id="f1"><div class="field-label">Ragione Sociale <span class="required">*</span></div><input class="field-input" id="f-ragsoc" type="text" placeholder="Farmacia Bianchi S.r.l." oninput="checkStep3()"/></div>
       <div class="cascade-field tall" id="f2">
   <div class="field-label">Codice SDI <span class="required">*</span><span class="tag">e-fattura</span></div>
-  <input class="field-input" id="f-sdi" type="text" placeholder="es. ABC1234"/>
+  <input class="field-input" id="f-sdi" type="text" placeholder="es. ABC1234" oninput="checkStep3()"/>
   <div style="margin-top:6px;display:flex;align-items:center;gap:6px;">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0d6fa8" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
     <span style="font-size:11px;color:#666;">Non conosci il codice SDI?</span>
@@ -609,11 +610,11 @@ select.field-input{cursor:pointer;}
           <div><div class="field-label">Prov.</div><input class="field-input" id="f-prov2" type="text" placeholder="FI" maxlength="2"/></div>
         </div>
       </div>
-      <div class="cascade-field" id="f5"><div class="field-label">Nome referente interno</div><input class="field-input" id="f-ref" type="text" placeholder="Chi partecipa al corso"/></div>
+
 
       <div class="form-nav">
         <button class="btn-back" onclick="if(validateStep(1))goTo(2)">← Indietro</button>
-        <button class="btn-next" onclick="if(validateStep(3))goTo(4)">Avanti →</button>
+        <button class="btn-next" id="btn-avanti-3" disabled onclick="if(validateStep(3))goTo(4)">Avanti →</button>
       </div>
     </div>
 
@@ -876,6 +877,19 @@ function toggleAccompagnatori(){
     var nw=document.getElementById('accomp-nomi-wrap');if(nw)nw.remove();
   }
 }
+function checkStep3(){
+  var btn=document.getElementById('btn-avanti-3');
+  if(!btn)return;
+  if(!currentType){btn.disabled=true;return;}
+  var ok=false;
+  if(currentType==='privato'){
+    ok=!!(document.getElementById('f-cf').value&&document.getElementById('f-via').value&&document.getElementById('f-cap').value);
+  }
+  if(currentType==='farmacia'){
+    ok=!!(document.getElementById('f-piva').value&&document.getElementById('f-ragsoc').value&&document.getElementById('f-sdi').value&&document.getElementById('f-via2').value&&document.getElementById('f-cap2').value);
+  }
+  btn.disabled=!ok;
+}
 function checkStep2(){
   var nome=document.getElementById('f-nome').value.trim();
   var cognome=document.getElementById('f-cognome').value.trim();
@@ -898,9 +912,36 @@ function validateStep(s){
   if(s===3){
     if(!currentType)return false;
     if(currentType==='privato'){
-      if(!document.getElementById('f-cf').value)return false;
-      if(!document.getElementById('f-via').value)return false;
-      if(!document.getElementById('f-cap').value)return false;
+      var privatoOk=true;
+      ['f-cf','f-via','f-cap'].forEach(function(id){
+        var el=document.getElementById(id);
+        if(!el)return;
+        if(!el.value.trim()){
+          el.style.borderColor='#cc3300';
+          el.style.background='#fff5f5';
+          privatoOk=false;
+        } else {
+          el.style.borderColor='';
+          el.style.background='';
+        }
+      });
+      if(!privatoOk)return false;
+    }
+    if(currentType==='farmacia'){
+      var farmaciaOk=true;
+      ['f-piva','f-ragsoc','f-sdi','f-via2','f-cap2'].forEach(function(id){
+        var el=document.getElementById(id);
+        if(!el)return;
+        if(!el.value.trim()){
+          el.style.borderColor='#cc3300';
+          el.style.background='#fff5f5';
+          farmaciaOk=false;
+        } else {
+          el.style.borderColor='';
+          el.style.background='';
+        }
+      });
+      if(!farmaciaOk)return false;
     }
   }
   return true;
@@ -982,7 +1023,7 @@ function lookupCAP(capId,cittaId,provId){
     }).catch(function(){});
 }
 
-function showFarmaciaFields(){
+function showFarmaciaFields(){checkStep3();
   var ids=['f1','f2','f3','f4','f5'];
   ids.forEach(function(id,i){setTimeout(function(){document.getElementById(id).classList.add('visible');},i*110);});
 }
@@ -1352,9 +1393,25 @@ function lookupPIVA(el){
           var rh=document.getElementById('f-ragsoc-hidden');if(rh)rh.value=name;
           var ah=document.getElementById('f-addr-hidden');if(ah&&addr)ah.value=addr;
           // Estrai CAP da indirizzo VIES e precompila campi nascosti
+          // Estrai via (prima del CAP), CAP, città e provincia dall'indirizzo VIES
           var capMatch=addr.match(/\b(\d{5})\b/);
           if(capMatch){
-            var cap2=document.getElementById('f-cap2');if(cap2)cap2.value=capMatch[1];
+            var capVal=capMatch[1];
+            var viaOnly=addr.substring(0,addr.indexOf(capVal)).replace(/,\s*$/,'').trim();
+            var via2=document.getElementById('f-via2');if(via2&&viaOnly)via2.value=viaOnly;
+            var cap2=document.getElementById('f-cap2');if(cap2)cap2.value=capVal;
+            // Estrai città e provincia dalla parte dopo il CAP
+            var afterCap=addr.substring(addr.indexOf(capVal)+5).replace(/^[,\s]+/,'').trim();
+            var provMatch=afterCap.match(/\b([A-Z]{2})$/);
+            if(provMatch){
+              var prov=provMatch[1];
+              var cittaStr=afterCap.substring(0,afterCap.lastIndexOf(prov)).replace(/[,\s]+$/,'').trim();
+              var citta2=document.getElementById('f-citta2');if(citta2&&cittaStr)citta2.value=cittaStr;
+              var prov2=document.getElementById('f-prov2');if(prov2)prov2.value=prov;
+            } else {
+              lookupCAP('f-cap2','f-citta2','f-prov2');
+            }
+            setTimeout(checkStep3,500);
           }
           el.className='field-input valid';
         } else if(d.isValid){

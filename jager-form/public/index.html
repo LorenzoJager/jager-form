@@ -880,19 +880,7 @@ function toggleAccompagnatori(){
     var nw=document.getElementById('accomp-nomi-wrap');if(nw)nw.remove();
   }
 }
-function checkStep3(){
-  var btn=document.getElementById('btn-avanti-3');
-  if(!btn)return;
-  if(!currentType){btn.disabled=true;return;}
-  var ok=false;
-  if(currentType==='privato'){
-    ok=!!(document.getElementById('f-cf').value&&document.getElementById('f-via').value&&document.getElementById('f-cap').value);
-  }
-  if(currentType==='farmacia'){
-    ok=!!(document.getElementById('f-piva').value&&document.getElementById('f-ragsoc').value&&document.getElementById('f-sdi').value&&document.getElementById('f-via2').value&&document.getElementById('f-cap2').value);
-  }
-  btn.disabled=!ok;
-}
+function checkStep3(){}
 function checkStep2(){
   var nome=document.getElementById('f-nome').value.trim();
   var cognome=document.getElementById('f-cognome').value.trim();

@@ -589,7 +589,10 @@ select.field-input{cursor:pointer;}
 </div>
         <button class="manual-btn" id="manual-btn" style="display:none" onclick="enableManual()">Inserisci manualmente i dati aziendali →</button>
         <div style="margin-top:10px;text-align:center;">
-          <button type="button" onclick="enableManual()" style="background:none;border:none;font-size:12px;color:#888;cursor:pointer;font-family:inherit;text-decoration:underline;padding:4px 8px;">Inserimento manuale dati aziendali</button>
+          <div id="manuale-btn-wrap" style="display:none;text-align:center;">
+            <p style="font-size:12px;color:#888;margin:0 0 4px;">P.IVA non riconosciuta o problemi di connessione?</p>
+            <button type="button" onclick="enableManual()" style="background:none;border:none;font-size:13px;color:#0d6fa8;cursor:pointer;font-family:inherit;text-decoration:underline;padding:4px 8px;">&#128070; Clicca qui per inserimento manuale dati aziendali</button>
+          </div>
         </div>
       </div>
       <div class="cascade-field" id="f1"><div class="field-label">Ragione Sociale <span class="required">*</span></div><input class="field-input" id="f-ragsoc" type="text" placeholder="Farmacia Bianchi S.r.l." oninput="checkStep3()"/></div>
@@ -614,7 +617,7 @@ select.field-input{cursor:pointer;}
 
       <div class="form-nav">
         <button class="btn-back" onclick="if(validateStep(1))goTo(2)">← Indietro</button>
-        <button class="btn-next" id="btn-avanti-3" disabled onclick="if(validateStep(3))goTo(4)">Avanti →</button>
+        <button class="btn-next" id="btn-avanti-3" onclick="if(validateStep(3))goTo(4)">Avanti →</button>
       </div>
     </div>
 
@@ -1366,6 +1369,7 @@ function lookupPIVA(el){
   if(pr)pr.style.display='none';
   if(ok)ok.style.display='none';
   if(err)err.style.display='none';
+  var mw=document.getElementById('manuale-btn-wrap');if(mw)mw.style.display='none';
   if(v.length!==11)return;
   if(spin)spin.style.display='block';
   if(lt){lt.style.display='block';}
@@ -1424,6 +1428,7 @@ function lookupPIVA(el){
           if(ok)ok.style.display='none';
           if(err){err.style.display='block';}
           var et=document.getElementById('vies-err-text');if(et)et.textContent='P.IVA non trovata su VIES — verifica il numero';
+          var mw=document.getElementById('manuale-btn-wrap');if(mw)mw.style.display='block';
           el.className='field-input invalid';
         }
       })
@@ -1435,6 +1440,7 @@ function lookupPIVA(el){
         if(err){err.style.display='block';}
         var et=document.getElementById('vies-err-text');if(et)et.textContent='Verifica VIES non disponibile — inserisci i dati manualmente';
         var mb=document.getElementById('vies-manual-timeout-btn');if(mb)mb.style.display='block';
+        var mw=document.getElementById('manuale-btn-wrap');if(mw)mw.style.display='block';
       });
   },900);
 }
